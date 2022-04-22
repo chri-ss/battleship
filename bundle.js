@@ -1,0 +1,1 @@
+(()=>{const e=document.getElementById("content"),t=document.createElement("div");t.textContent="afdsdfksdna",e.appendChild(t)})();
