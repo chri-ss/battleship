@@ -16,3 +16,11 @@ test("Ship has method for marking a hit", () => {
 
   expect(shipHitMock).toHaveReturnedWith([, "x", , ,]);
 });
+
+test("isSunk determines if all pieces of ship hit", () => {
+  expect(ship(4).isSunk(["x", "x", "x", "x"])).toBe(true);
+});
+
+test("isSunk determines if a ship is not sunk if one piece is not hit", () => {
+  expect(ship(4).isSunk(["x", , "x", "x"])).toBe(false);
+});
