@@ -12,20 +12,26 @@ const gameboard = () => {
 
   const board = makeBoard();
 
-  const placeShip = (shipType, direction, startRow, startColumn) => {
-    if (direction === "horizontal") {
-      for (
-        let i = startColumn - 1;
-        i < startColumn - 1 + shipType.length;
-        ++i
-      ) {
+  const placeHorizontal = (shipType, direction, startRow, startColumn) => {
+    for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
+      if (board[startRow][i] === undefined) {
         board[startRow][i] = "o";
       }
+    }
+  };
+
+  const placeVertical = (shipType, direction, startRow, startColumn) => {
+    for (let i = 0; i < shipType.length; ++i) {
+      board[String.fromCharCode(startRow.charCodeAt(0) + i)][startColumn - 1] =
+        "o";
+    }
+  };
+
+  const placeShip = (shipType, direction, startRow, startColumn) => {
+    if (direction === "horizontal") {
+      placeHorizontal(shipType, direction, startRow, startColumn);
     } else if (direction === "vertical") {
-      for (let i = 0; i < shipType.length; ++i) {
-        board[String.fromCharCode(startRow.charCodeAt(0) + i)][startColumn - 1] =
-          "o";
-      }
+      placeVertical(shipType, direction, startRow, startColumn);
     }
     return board;
   };
