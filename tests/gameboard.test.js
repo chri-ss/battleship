@@ -36,3 +36,24 @@ test("placeShip places a ship horizontally", () => {
     J: [, , , , , , , , , ,],
   });
 });
+
+test("placeShip places a ship vertically", () => {
+  const placeShipMock = jest.fn(() =>
+    gameboard().placeShip(ship(5), "vertical", "D", 3)
+  );
+
+  placeShipMock();
+
+  expect(placeShipMock).toHaveReturnedWith({
+    A: [, , , , , , , , , ,],
+    B: [, , , , , , , , , ,],
+    C: [, , , , , , , , , ,],
+    D: [, , "o", , , , , , , ,],
+    E: [, , "o", , , , , , , ,],
+    F: [, , "o", , , , , , , ,],
+    G: [, , "o", , , , , , , ,],
+    H: [, , "o", , , , , , , ,],
+    I: [, , , , , , , , , ,],
+    J: [, , , , , , , , , ,],
+  });
+});

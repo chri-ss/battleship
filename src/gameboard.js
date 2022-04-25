@@ -14,8 +14,17 @@ const gameboard = () => {
 
   const placeShip = (shipType, direction, startRow, startColumn) => {
     if (direction === "horizontal") {
-      for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
+      for (
+        let i = startColumn - 1;
+        i < startColumn - 1 + shipType.length;
+        ++i
+      ) {
         board[startRow][i] = "o";
+      }
+    } else if (direction === "vertical") {
+      for (let i = 0; i < shipType.length; ++i) {
+        board[String.fromCharCode(startRow.charCodeAt(0) + i)][startColumn - 1] =
+          "o";
       }
     }
     return board;
