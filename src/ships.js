@@ -1,6 +1,8 @@
 const ship = (length) => {
   const hitArray = [];
-  hitArray.length = length;
+  for (let i = 0; i < length; ++i) {
+    hitArray[i] = "o";
+  }
 
   const hit = (num) => {
     hitArray[num - 1] = "x";

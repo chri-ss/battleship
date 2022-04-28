@@ -14,7 +14,7 @@ test("Ship has method for marking a hit", () => {
 
   shipHitMock(s);
 
-  expect(shipHitMock).toHaveReturnedWith([, "x", , ,]);
+  expect(shipHitMock).toHaveReturnedWith(["o", "x", "o", "o"]);
 });
 
 test("isSunk determines if all pieces of ship hit", () => {
@@ -22,5 +22,5 @@ test("isSunk determines if all pieces of ship hit", () => {
 });
 
 test("isSunk determines if a ship is not sunk if one piece is not hit", () => {
-  expect(ship(4).isSunk(["x", , "x", "x"])).toBe(false);
+  expect(ship(4).isSunk(["x", "o", "x", "x"])).toBe(false);
 });

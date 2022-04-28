@@ -57,3 +57,15 @@ test("placeShip places a ship vertically", () => {
     J: [, , , , , , , , , ,],
   });
 });
+
+test("placeShip can't place ships out of bounds horizontally", () => {
+  expect(() => gameboard().placeShip(ship(5), "horizontal", "D", 9)).toThrow(
+    "Ship out of bounds"
+  );
+});
+
+test("placeShip can't place ships out of bounds vertically", () => {
+  expect(() => gameboard().placeShip(ship(5), "vertical", "H", 7)).toThrow(
+    "Ship out of bounds"
+  );
+});

@@ -12,26 +12,36 @@ const gameboard = () => {
 
   const board = makeBoard();
 
-  const placeHorizontal = (shipType, direction, startRow, startColumn) => {
+  const placeHorizontal = (shipType, startRow, startColumn) => {
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
-      if (board[startRow][i] === undefined) {
-        board[startRow][i] = "o";
+      if (i >= 0 && i < 10) {
+        board[startRow][i] = shipType.hitArray[i - startColumn + 1];
+      } else {
+        throw new Error("Ship out of bounds");
       }
     }
   };
 
-  const placeVertical = (shipType, direction, startRow, startColumn) => {
+  const placeVertical = (shipType, startRow, startColumn) => {
     for (let i = 0; i < shipType.length; ++i) {
-      board[String.fromCharCode(startRow.charCodeAt(0) + i)][startColumn - 1] =
-        "o";
+      if (
+        startRow.charCodeAt(0) + i >= 65 &&
+        startRow.charCodeAt(0) + i <= 74
+      ) {
+        board[String.fromCharCode(startRow.charCodeAt(0) + i)][
+          startColumn - 1
+        ] = shipType.hitArray[i];
+      } else {
+        throw new Error("Ship out of bounds");
+      }
     }
   };
 
   const placeShip = (shipType, direction, startRow, startColumn) => {
     if (direction === "horizontal") {
-      placeHorizontal(shipType, direction, startRow, startColumn);
+      placeHorizontal(shipType, startRow, startColumn);
     } else if (direction === "vertical") {
-      placeVertical(shipType, direction, startRow, startColumn);
+      placeVertical(shipType, startRow, startColumn);
     }
     return board;
   };
