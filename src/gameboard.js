@@ -12,17 +12,38 @@ const gameboard = () => {
 
   const board = makeBoard();
 
-  const placeHorizontal = (shipType, startRow, startColumn) => {
+  const checkForInvalidSpacesHorizontal = (shipType, startRow, startColumn) => {
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
-      if (i >= 0 && i < 10) {
-        board[startRow][i] = shipType.hitArray[i - startColumn + 1];
-      } else {
+      if (board[startRow][i] === "o" || i > 10) {
         throw new Error("Ship out of bounds");
       }
     }
   };
 
+  const checkForInvalidSpacesVertical = (shipType, startRow, startColumn) => {
+    for (let i = 0; i < shipType.length; ++i) {
+      if (
+        board[String.fromCharCode(startRow.charCodeAt(0) + i)][
+          startColumn - 1
+        ] === "o" ||
+        startRow.charCodeAt(0) + i >= 74
+      ) {
+        throw new Error("Ship out of bounds");
+      }
+    }
+  };
+
+  const placeHorizontal = (shipType, startRow, startColumn) => {
+    checkForInvalidSpacesHorizontal(shipType, startRow, startColumn);
+    for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
+      if (i >= 0 && i < 10) {
+        board[startRow][i] = shipType.hitArray[i - startColumn + 1];
+      }
+    }
+  };
+
   const placeVertical = (shipType, startRow, startColumn) => {
+    checkForInvalidSpacesVertical(shipType, startRow, startColumn);
     for (let i = 0; i < shipType.length; ++i) {
       if (
         startRow.charCodeAt(0) + i >= 65 &&
@@ -31,8 +52,6 @@ const gameboard = () => {
         board[String.fromCharCode(startRow.charCodeAt(0) + i)][
           startColumn - 1
         ] = shipType.hitArray[i];
-      } else {
-        throw new Error("Ship out of bounds");
       }
     }
   };

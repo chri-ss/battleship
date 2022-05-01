@@ -69,3 +69,16 @@ test("placeShip can't place ships out of bounds vertically", () => {
     "Ship out of bounds"
   );
 });
+
+describe("placeShip can't place ships over existing ships", () => {
+  const b = gameboard();
+
+  beforeEach(() => {
+    b.placeShip(ship(5, "horizontal", "C", 2));
+  });
+
+  test("placing a ship overlapping another ship perpendiclar", () => {
+    expect(() => b.placeShip(ship(5), "vertical", "I", 5)).toThrow(
+      "Ship out of bounds")
+  })
+});
