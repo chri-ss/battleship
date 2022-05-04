@@ -1,5 +1,4 @@
-import { ship } from "./ships";
-
+/* eslint-disable no-plusplus */
 const gameboard = () => {
   const makeBoard = () => {
     const brd = {};
@@ -11,6 +10,8 @@ const gameboard = () => {
   };
 
   const board = makeBoard();
+
+  const ships = [];
 
   const checkForInvalidSpacesHorizontal = (shipType, startRow, startColumn) => {
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
@@ -34,15 +35,20 @@ const gameboard = () => {
   };
 
   const placeHorizontal = (shipType, startRow, startColumn) => {
+    ships.push(shipType);
+    shipType.placementArray = [];
     checkForInvalidSpacesHorizontal(shipType, startRow, startColumn);
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
       if (i >= 0 && i < 10) {
         board[startRow][i] = shipType.hitArray[i - startColumn + 1];
+        shipType.placementArray.push([startRow, i]);
       }
     }
   };
 
   const placeVertical = (shipType, startRow, startColumn) => {
+    ships.push(shipType);
+    shipType.placementArray = [];
     checkForInvalidSpacesVertical(shipType, startRow, startColumn);
     for (let i = 0; i < shipType.length; ++i) {
       if (
@@ -52,6 +58,10 @@ const gameboard = () => {
         board[String.fromCharCode(startRow.charCodeAt(0) + i)][
           startColumn - 1
         ] = shipType.hitArray[i];
+        shipType.placementArray.push([
+          startRow.charCodeAt(0) + i,
+          startColumn - 1,
+        ]);
       }
     }
   };
@@ -65,7 +75,23 @@ const gameboard = () => {
     return board;
   };
 
-  return { board, placeShip };
+  const receiveAttack = (row, column) => {
+    if (board[row][column] === "o") {
+      board[row][column] = "x";
+      ships.forEach((shipp) => {
+        shipp.placementArray.forEach((coords) => {
+          if (coords[0] === row && coords[1] === column) {
+            shipp.hit(shipp.placementArray.indexOf(coords));
+          }
+        });
+      });
+      return true;
+    }
+    board[row][column] = "m";
+    return false;
+  };
+
+  return { board, placeShip, receiveAttack, ships };
 };
 
 export { gameboard };

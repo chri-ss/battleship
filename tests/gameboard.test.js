@@ -70,15 +70,35 @@ test("placeShip can't place ships out of bounds vertically", () => {
   );
 });
 
-describe("placeShip can't place ships over existing ships", () => {
+describe("Detecting ship collisions/hits", () => {
   const b = gameboard();
+  const carrier = ship(5);
 
-  beforeEach(() => {
-    b.placeShip(ship(5, "horizontal", "C", 2));
+  beforeAll(() => {
+    b.placeShip(carrier, "horizontal", "C", 2);
   });
 
-  test("placing a ship overlapping another ship perpendiclar", () => {
+  test("placeShip can't place a ship overlapping another ship perpendiclar", () => {
     expect(() => b.placeShip(ship(5), "vertical", "I", 5)).toThrow(
-      "Ship out of bounds")
-  })
+      "Ship out of bounds"
+    );
+  });
+
+  test("receiveAttack registers a hit on gameboard, if there is a ship", () => {
+    expect(b.receiveAttack("C", 5)).toBe(true);
+  });
+
+  test("receiveAttack registers a miss on gameboard, if no ship present", () => {
+    expect(b.receiveAttack("E", 5)).toBe(false);
+  });
+
+  test("receiveAttack, sends hit() to ship object", () => {
+    const receiveAttackMock = jest.fn(() => {
+      b.receiveAttack("C", 5);
+    });
+
+    receiveAttackMock();
+
+    expect(carrier.hitArray[3]).toBe("x");
+  });
 });
