@@ -8,13 +8,13 @@ test("hitArray has a length", () => {
   expect(ship(4).hitArray.length).toBe(4);
 });
 
-test("Ship has method for marking a hit", () => {
+test("Ship has method for marking a hit (hits index)", () => {
   const s = ship(4);
   const shipHitMock = jest.fn((s) => s.hit(2));
 
   shipHitMock(s);
 
-  expect(shipHitMock).toHaveReturnedWith(["o", "x", "o", "o"]);
+  expect(shipHitMock).toHaveReturnedWith(["o", "o", "x", "o"]);
 });
 
 test("isSunk determines if all pieces of ship hit", () => {

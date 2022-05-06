@@ -1,3 +1,5 @@
+import { ship } from "./ships";
+
 /* eslint-disable no-plusplus */
 const gameboard = () => {
   const makeBoard = () => {
@@ -41,7 +43,7 @@ const gameboard = () => {
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
       if (i >= 0 && i < 10) {
         board[startRow][i] = shipType.hitArray[i - startColumn + 1];
-        shipType.placementArray.push([startRow, i]);
+        shipType.placementArray.push([startRow, i + 1]);
       }
     }
   };
@@ -59,7 +61,7 @@ const gameboard = () => {
           startColumn - 1
         ] = shipType.hitArray[i];
         shipType.placementArray.push([
-          startRow.charCodeAt(0) + i,
+          String.fromCharCode(startRow.charCodeAt(0) + i),
           startColumn - 1,
         ]);
       }
@@ -76,8 +78,8 @@ const gameboard = () => {
   };
 
   const receiveAttack = (row, column) => {
-    if (board[row][column] === "o") {
-      board[row][column] = "x";
+    if (board[row][column - 1] === "o") {
+      board[row][column - 1] = "x";
       ships.forEach((shipp) => {
         shipp.placementArray.forEach((coords) => {
           if (coords[0] === row && coords[1] === column) {
@@ -91,7 +93,19 @@ const gameboard = () => {
     return false;
   };
 
-  return { board, placeShip, receiveAttack, ships };
+  const allShipsSunk = () => {
+    let allSunk = false;
+    ships.forEach((shipp) => {
+      if (shipp.isSunk(shipp.hitArray)) {
+        allSunk = true;
+      } else {
+        allSunk = false;
+      }
+    });
+    return allSunk;
+  };
+
+  return { board, placeShip, receiveAttack, ships, allShipsSunk };
 };
 
 export { gameboard };

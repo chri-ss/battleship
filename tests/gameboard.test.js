@@ -102,3 +102,28 @@ describe("Detecting ship collisions/hits", () => {
     expect(carrier.hitArray[3]).toBe("x");
   });
 });
+
+describe("Determining if all ships are sunk", () => {
+  const b = gameboard();
+  const carrier = ship(5);
+  const battleship = ship(4);
+  const cruiser = ship(3);
+  beforeEach(() => {
+    b.placeShip(carrier, "horizontal", "B", 2);
+    b.placeShip(battleship, "vertical", "C", 6);
+    b.placeShip(cruiser, "horizontal", "E", 1);
+  });
+
+  test("allShipsSunk returns true if all ships on gameboard are sunk (if isSunk returns true)", () => {
+    const sinkAllShipsMock = jest.fn(() => {
+      b.ships.forEach((s) => {
+        s.placementArray.forEach((i) => {
+          b.receiveAttack(i[0], i[1]);
+        });
+      });
+    });
+    sinkAllShipsMock();
+
+    expect(b.allShipsSunk()).toBe(true);
+  });
+});
