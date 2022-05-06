@@ -1,17 +1,19 @@
 const ship = (length) => {
   const hitArray = [];
-  hitArray.length = length;
+  for (let i = 0; i < length; ++i) {
+    hitArray[i] = "o";
+  }
 
   const hit = (num) => {
-    hitArray[num - 1] = "x";
+    hitArray[num] = "x";
     return hitArray;
   };
 
-  const isSunk = (pieces) => {
+  const isSunk = (hitArray) => {
     let sunk = true;
     // eslint-disable-next-line no-unreachable-loop
-    for (let i = 0; i < pieces.length; ++i) {
-      if (pieces[i] !== "x") {
+    for (let i = 0; i < length; ++i) {
+      if (hitArray[i] !== "x") {
         sunk = false;
       }
     }

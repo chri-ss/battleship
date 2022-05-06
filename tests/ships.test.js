@@ -1,6 +1,6 @@
 import { ship } from "../src/ships";
 
-test("Ship is has length", () => {
+test("Ship has length", () => {
   expect(ship(4).length).toBe(4);
 });
 
@@ -8,13 +8,13 @@ test("hitArray has a length", () => {
   expect(ship(4).hitArray.length).toBe(4);
 });
 
-test("Ship has method for marking a hit", () => {
+test("Ship has method for marking a hit (hits index)", () => {
   const s = ship(4);
   const shipHitMock = jest.fn((s) => s.hit(2));
 
   shipHitMock(s);
 
-  expect(shipHitMock).toHaveReturnedWith([, "x", , ,]);
+  expect(shipHitMock).toHaveReturnedWith(["o", "o", "x", "o"]);
 });
 
 test("isSunk determines if all pieces of ship hit", () => {
@@ -22,5 +22,5 @@ test("isSunk determines if all pieces of ship hit", () => {
 });
 
 test("isSunk determines if a ship is not sunk if one piece is not hit", () => {
-  expect(ship(4).isSunk(["x", , "x", "x"])).toBe(false);
+  expect(ship(4).isSunk(["x", "o", "x", "x"])).toBe(false);
 });
