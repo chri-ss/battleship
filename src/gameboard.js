@@ -6,7 +6,6 @@ const gameboard = () => {
     const brd = {};
     for (let i = 0; i < 10; ++i) {
       brd[String.fromCharCode(i + 65)] = [];
-      // brd[String.fromCharCode(i + 65)].length = 10;
       for (let j = 0; j < 10; ++j) {
         brd[String.fromCharCode(i + 65)].push("");
       }
@@ -92,7 +91,7 @@ const gameboard = () => {
       });
       return true;
     }
-    board[row][column] = "m";
+    board[row][column - 1] = "m";
     return false;
   };
 
