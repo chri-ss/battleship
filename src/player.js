@@ -29,18 +29,28 @@ const player = () => {
     return row;
   };
 
+  const checkFiredOnLocations = (row, column) => {
+    firedOnLocations.forEach((location) => {
+      if (location[0] === row && location[1] === column) {
+        return true;
+      }
+    });
+    return false;
+  };
+
   const attackBoard = (plyr, row, column) => {
-    if (turn) {
+    if (turn && checkFiredOnLocations(row, column) === false) {
       plyr.brd.receiveAttack(row, column);
       firedOnLocations.push([row, column]);
       setTurn(false);
     }
+    return firedOnLocations;
   };
 
   const computerAttack = (plyr) => {
     const row = getRandomRow();
     const column = getRandomColumn();
-    if (computer === true && !firedOnLocations.includes([row, column])) {
+    if (computer) {
       attackBoard(plyr, row, column);
       return true;
     }
