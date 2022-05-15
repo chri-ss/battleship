@@ -3,6 +3,15 @@ const content = document.getElementById("content");
 const makeHeader = () => {
   const header = document.createElement("div");
   header.classList.add("header");
+  const title = document.createElement("div");
+  title.classList.add("title");
+  title.textContent = "Battleship";
+  const startGame = document.createElement("button");
+  startGame.classList.add("start-game");
+  startGame.textContent = "Start Game";
+  header.appendChild(title);
+  header.appendChild(startGame);
+  content.appendChild(header);
 };
 
 const makeShipArea = () => {
@@ -20,10 +29,17 @@ const makeShipArea = () => {
 const makeBoardArea = () => {
   const boardArea = document.createElement("div");
   boardArea.classList.add("board-area");
+  const boardAreaOne = document.createElement("div");
+  boardAreaOne.classList.add("board-area-one");
+  const boardAreaTwo = document.createElement("div");
+  boardAreaTwo.classList.add("board-area-two");
+  boardArea.appendChild(boardAreaOne);
+  boardArea.appendChild(boardAreaTwo);
   content.appendChild(boardArea);
 };
 
 const makeUI = () => {
+  makeHeader();
   makeShipArea();
   makeBoardArea();
 };
