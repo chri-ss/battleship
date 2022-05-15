@@ -1,4 +1,5 @@
 const content = document.getElementById("content");
+const boardArea = document.createElement("div");
 
 const makeHeader = () => {
   const header = document.createElement("div");
@@ -26,22 +27,28 @@ const makeShipArea = () => {
   content.appendChild(shipArea);
 };
 
+const makeBoard = (plyr) => {
+  const newBoard = document.createElement("div");
+  newBoard.classList.add("new-board");
+  Object.entries(plyr.brd.board).forEach((entry) => {
+    entry[1].forEach((i) => {
+      const gridTile = document.createElement("div");
+      gridTile.classList.add("grid-tile");
+      newBoard.appendChild(gridTile);
+    });
+  });
+  boardArea.appendChild(newBoard);
+};
+
 const makeBoardArea = () => {
-  const boardArea = document.createElement("div");
   boardArea.classList.add("board-area");
-  const boardAreaOne = document.createElement("div");
-  boardAreaOne.classList.add("board-area-one");
-  const boardAreaTwo = document.createElement("div");
-  boardAreaTwo.classList.add("board-area-two");
-  boardArea.appendChild(boardAreaOne);
-  boardArea.appendChild(boardAreaTwo);
   content.appendChild(boardArea);
 };
 
 const makeUI = () => {
   makeHeader();
-  makeShipArea();
   makeBoardArea();
+  makeShipArea();
 };
 
-export default makeUI;
+export { makeUI, makeBoard };
