@@ -11,6 +11,7 @@ const newGameListener = () => {
     makeBoard(p1);
     makeBoard(p2);
     // return { p1, p2 };
+    newGameButton.disabled = true;
   });
 };
 

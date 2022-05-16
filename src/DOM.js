@@ -1,3 +1,5 @@
+import tile from "./images/tile048.png";
+
 const content = document.getElementById("content");
 const boardArea = document.createElement("div");
 
@@ -35,6 +37,7 @@ const makeBoard = (plyr) => {
       const gridTile = document.createElement("div");
       gridTile.classList.add("grid-tile");
       newBoard.appendChild(gridTile);
+      gridTile.style.backgroundImage = `url(${tile})`;
     });
   });
   boardArea.appendChild(newBoard);
