@@ -1,4 +1,5 @@
 import { gameboard } from "./gameboard";
+import { ship } from "./ships";
 
 const player = () => {
   let turn = false;

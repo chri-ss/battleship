@@ -42,10 +42,18 @@ body {
 .board-area {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 10fr; 
   background-color: #afbcc0;
   align-items: center;
   justify-items: center;
   border-bottom: 2px solid #324452;
+
+  .board-title {
+    grid-row: 1/2;
+    align-self: end;
+    font-size: 32px;
+    font-weight: 700;
+  }
 
   .new-board {
     display: grid;
@@ -54,6 +62,7 @@ body {
     border: 1px solid #324452;
     height: 80%;
     aspect-ratio: 1/1;
+    grid-row: 2/3;
   }
 
   .grid-tile {

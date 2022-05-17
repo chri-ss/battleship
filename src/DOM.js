@@ -1,4 +1,5 @@
 import tile from "./images/tile048.png";
+import player from "./player";
 
 const content = document.getElementById("content");
 const boardArea = document.createElement("div");
@@ -29,19 +30,40 @@ const makeShipArea = () => {
   content.appendChild(shipArea);
 };
 
+const makeBoardTitle = (plyr) => {
+  const boardTitle = document.createElement("div");
+  boardTitle.classList.add("board-title");
+  if (plyr.getComp() === true) {
+    boardTitle.textContent = "Computer's Board";
+  } else {
+    boardTitle.textContent = "Your Board";
+  }
+  boardArea.appendChild(boardTitle);
+};
+
 const makeBoard = (plyr) => {
+  makeBoardTitle(plyr);
   const newBoard = document.createElement("div");
   newBoard.classList.add("new-board");
   Object.entries(plyr.brd.board).forEach((entry) => {
+    let column = 1;
     entry[1].forEach((i) => {
       const gridTile = document.createElement("div");
       gridTile.classList.add("grid-tile");
+      gridTile.setAttribute("data-row", entry[0]);
+      gridTile.setAttribute("data-column", column);
+      column++;
       newBoard.appendChild(gridTile);
       gridTile.style.backgroundImage = `url(${tile})`;
     });
   });
   boardArea.appendChild(newBoard);
 };
+
+// const updateBoard = () => {
+//   const board = document.querySelector(".new-board");
+//   board.
+// };
 
 const makeBoardArea = () => {
   boardArea.classList.add("board-area");
