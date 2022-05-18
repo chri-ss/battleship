@@ -44,14 +44,13 @@ const makeBoardTitle = (plyr) => {
 const makeBoard = (plyr) => {
   makeBoardTitle(plyr);
   const newBoard = document.createElement("div");
-  newBoard.classList.add("new-board");
+  newBoard.classList.add("new-board", `${plyr.getComp()}`);
   Object.entries(plyr.brd.board).forEach((entry) => {
     let column = 1;
     entry[1].forEach((i) => {
       const gridTile = document.createElement("div");
       gridTile.classList.add("grid-tile");
-      gridTile.setAttribute("data-row", entry[0]);
-      gridTile.setAttribute("data-column", column);
+      gridTile.setAttribute(`${plyr.getComp()}data-coords`, entry[0] + column);
       column++;
       newBoard.appendChild(gridTile);
       gridTile.style.backgroundImage = `url(${tile})`;
@@ -60,10 +59,21 @@ const makeBoard = (plyr) => {
   boardArea.appendChild(newBoard);
 };
 
-// const updateBoard = () => {
-//   const board = document.querySelector(".new-board");
-//   board.
-// };
+const updateBoard = (plyr) => {
+  const board = document.querySelector(".new-board");
+  Object.entries(plyr.brd.board).forEach((entry) => {
+    let column = 1;
+    entry[1].forEach((i) => {
+      if (i === "o") {
+        const gridTile = document.querySelector(
+          `[${plyr.getComp()}data-coords="${entry[0] + column}"]`
+        );
+        gridTile.style.background = "black";
+      }
+      column++;
+    });
+  });
+};
 
 const makeBoardArea = () => {
   boardArea.classList.add("board-area");
@@ -76,4 +86,4 @@ const makeUI = () => {
   makeShipArea();
 };
 
-export { makeUI, makeBoard };
+export { makeUI, makeBoard, updateBoard };

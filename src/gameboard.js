@@ -91,6 +91,9 @@ const gameboard = () => {
       });
       return true;
     }
+    if (board[row][column - 1] === "x") {
+      return false;
+    }
     board[row][column - 1] = "m";
     return false;
   };

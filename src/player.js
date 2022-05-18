@@ -44,6 +44,7 @@ const player = () => {
       plyr.brd.receiveAttack(row, column);
       firedOnLocations.push([row, column]);
       setTurn(false);
+      plyr.setTurn(true);
     }
     return firedOnLocations;
   };
