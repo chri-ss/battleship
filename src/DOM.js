@@ -60,7 +60,6 @@ const makeBoard = (plyr) => {
 };
 
 const updateBoard = (plyr) => {
-  const board = document.querySelector(".new-board");
   Object.entries(plyr.brd.board).forEach((entry) => {
     let column = 1;
     entry[1].forEach((i) => {
@@ -80,10 +79,31 @@ const makeBoardArea = () => {
   content.appendChild(boardArea);
 };
 
+const colorHit = (gridTile, plyr, coords) => {
+  if (plyr.brd.board[coords[0]][coords[1] - 1] === "x") {
+    gridTile.style.background = "red";
+  }
+};
+
+const attackListener = (p1, p2) => {
+  boardArea.addEventListener("click", (e) => {
+    if (p1.getTurn() && e.target.hasAttribute("truedata-coords")) {
+      const coordsToAttack = e.target.getAttribute("truedata-coords");
+      p1.attackBoard(p2, coordsToAttack[0], coordsToAttack[1]);
+      colorHit(e.target, p2, coordsToAttack);
+      console.log(p2.brd.board);
+    } else if (p2.getTurn() && e.target.hasAttribute("falsedata-coords")) {
+      const coordsToAttack = e.target.getAttribute("falsedata-coords");
+      p2.attackBoard(p1, coordsToAttack[0], coordsToAttack[1]);
+      colorHit(e.target, p1, coordsToAttack);
+    }
+  });
+};
+
 const makeUI = () => {
   makeHeader();
   makeBoardArea();
   makeShipArea();
 };
 
-export { makeUI, makeBoard, updateBoard };
+export { makeUI, makeBoard, updateBoard, attackListener };
