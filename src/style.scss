@@ -42,7 +42,7 @@ body {
 .board-area {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 10fr; 
+  grid-template-rows: 1fr 10fr;
   background-color: #afbcc0;
   align-items: center;
   justify-items: center;
@@ -68,5 +68,11 @@ body {
   .grid-tile {
     border: 1px solid #324452;
     background-size: cover;
+  }
+
+  .overlay {
+    height: 100%;
+    width: 100%;
+    background: limegreen;
   }
 }

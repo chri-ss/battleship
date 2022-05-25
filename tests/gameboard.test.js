@@ -118,7 +118,7 @@ describe("Determining if all ships are sunk", () => {
     const sinkAllShipsMock = jest.fn(() => {
       b.ships.forEach((s) => {
         s.placementArray.forEach((i) => {
-          b.receiveAttack(i[0], i[1]);
+          b.receiveAttack(i[0], i[1] + 1);
         });
       });
     });

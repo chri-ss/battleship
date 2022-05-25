@@ -82,22 +82,16 @@ const makeBoardArea = () => {
 const colorHit = (gridTile, plyr, coords) => {
   if (plyr.brd.board[coords[0]][coords[1] - 1] === "x") {
     gridTile.style.background = "red";
+  } else {
+    gridTile.style.background = "blue";
   }
 };
 
-const attackListener = (p1, p2) => {
-  boardArea.addEventListener("click", (e) => {
-    if (p1.getTurn() && e.target.hasAttribute("truedata-coords")) {
-      const coordsToAttack = e.target.getAttribute("truedata-coords");
-      p1.attackBoard(p2, coordsToAttack[0], coordsToAttack[1]);
-      colorHit(e.target, p2, coordsToAttack);
-      console.log(p2.brd.board);
-    } else if (p2.getTurn() && e.target.hasAttribute("falsedata-coords")) {
-      const coordsToAttack = e.target.getAttribute("falsedata-coords");
-      p2.attackBoard(p1, coordsToAttack[0], coordsToAttack[1]);
-      colorHit(e.target, p1, coordsToAttack);
-    }
-  });
+const displayWinner = (otherPlyr) => {
+  const modal = document.createElement("div");
+  modal.classList.add(".modal");
+  if (otherPlyr) modal.textContent = `${otherPlyr.name} wins!`;
+  content.appendChild(modal);
 };
 
 const makeUI = () => {
@@ -106,4 +100,4 @@ const makeUI = () => {
   makeShipArea();
 };
 
-export { makeUI, makeBoard, updateBoard, attackListener };
+export { makeUI, makeBoard, updateBoard, colorHit, displayWinner };

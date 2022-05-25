@@ -1,5 +1,5 @@
 import player from "./player";
-import { makeBoard, updateBoard, attackListener } from "./DOM";
+import { makeBoard, updateBoard, colorHit, displayWinner } from "./DOM";
 import { ship } from "./ships";
 
 const populateBoard = (plyr) => {
@@ -15,11 +15,36 @@ const populateBoard = (plyr) => {
   plyr.brd.placeShip(destroyer, "horizontal", "H", 1);
 };
 
+const testForWinner = (plyr, otherPlyr) => {
+  if (plyr.brd.allShipsSunk()) {
+    displayWinner(otherPlyr);
+  }
+};
+
+const attackListener = (p1, p2) => {
+  const boardArea = document.querySelector(".board-area");
+  boardArea.addEventListener("click", (e) => {
+    if (p1.getTurn() && e.target.hasAttribute("truedata-coords")) {
+      const coordsToAttack = e.target.getAttribute("truedata-coords");
+      p1.attackBoard(p2, coordsToAttack[0], coordsToAttack[1]);
+      console.log(p2.brd);
+      colorHit(e.target, p2, coordsToAttack);
+      // testForWinner(p2, p1);
+    } else if (p2.getTurn() && e.target.hasAttribute("falsedata-coords")) {
+      const coordsToAttack = e.target.getAttribute("falsedata-coords");
+      p2.attackBoard(p1, coordsToAttack[0], coordsToAttack[1]);
+      console.log(p1.brd);
+      colorHit(e.target, p1, coordsToAttack);
+      // testForWinner(p1, p2);
+    }
+  });
+};
+
 const runGame = (p1, p2) => {
   populateBoard(p1);
   populateBoard(p2);
   updateBoard(p1);
-  updateBoard(p2);
+  // updateBoard(p2);
   attackListener(p1, p2);
 };
 
@@ -28,6 +53,8 @@ const newGameListener = () => {
   newGameButton.addEventListener("click", () => {
     const p1 = player();
     const p2 = player();
+    p1.name = "p1";
+    p2.name = "p2";
     p1.setTurn(true);
     p2.setComp(true);
     makeBoard(p1);
