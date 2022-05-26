@@ -99,16 +99,15 @@ const gameboard = () => {
   };
 
   const allShipsSunk = () => {
-    let allSunk = false;
+    const sunkArray = [];
     ships.forEach((shipp) => {
-      if (shipp.isSunk(shipp.hitArray)) {
-        allSunk = true;
-      } else {
-        allSunk = false;
-      }
+      sunkArray.push(shipp.isSunk());
     });
-    return allSunk;
+    const equalsTrue = (curr) => curr === true;
+
+    return sunkArray.every(equalsTrue);
   };
+
 
   return { board, placeShip, receiveAttack, ships, allShipsSunk };
 };
