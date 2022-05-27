@@ -1,5 +1,6 @@
 import { gameboard } from "./gameboard";
 import { ship } from "./ships";
+import { colorHit } from "./DOM";
 
 const player = () => {
   let turn = false;
@@ -60,7 +61,12 @@ const player = () => {
     const column = getRandomColumn();
     if (computer) {
       attackBoard(plyr, row, column);
-      return true;
+      colorHit(
+        document.querySelector(
+          `[falsedata-coords=${row + column}]`),
+          plyr,
+          `${row + column}`
+      );
     }
     return false;
   };
