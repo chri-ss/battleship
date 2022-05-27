@@ -29,11 +29,13 @@ const attackListener = (p1, p2) => {
       p1.attackBoard(p2, coordsToAttack[0], coordsToAttack[1]);
       colorHit(e.target, p2, coordsToAttack);
       testForWinner(p2, p1);
+      console.log(p2);
     } else if (p2.getTurn() && e.target.hasAttribute("falsedata-coords")) {
       const coordsToAttack = e.target.getAttribute("falsedata-coords");
       p2.attackBoard(p1, coordsToAttack[0], coordsToAttack[1]);
       colorHit(e.target, p1, coordsToAttack);
       testForWinner(p1, p2);
+      console.log(p1);
     }
   });
 };

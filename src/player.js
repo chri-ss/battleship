@@ -31,12 +31,18 @@ const player = () => {
   };
 
   const checkFiredOnLocations = (row, column) => {
-    firedOnLocations.forEach((location) => {
-      if (location[0] === row && location[1] === column) {
-        return true;
-      }
-    });
+    if (
+      JSON.stringify(firedOnLocations).includes(JSON.stringify([row, column]))
+    ) {
+      return true;
+    }
     return false;
+    // firedOnLocations.forEach((location) => {
+    //   if (location[0] === row && location[1] === column) {
+    //     return true;
+    //   }
+    // });
+    // return false;
   };
 
   const attackBoard = (plyr, row, column) => {
@@ -64,6 +70,7 @@ const player = () => {
     setTurn,
     getComp,
     setComp,
+    firedOnLocations,
     brd,
     attackBoard,
     computerAttack,
