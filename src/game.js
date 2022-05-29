@@ -24,14 +24,13 @@ const testForWinner = (plyr, otherPlyr) => {
 const attackListener = (p1, p2) => {
   const boardArea = document.querySelector(".board-area");
   boardArea.addEventListener("click", (e) => {
+    const coordsToAttack = e.target.getAttribute("truedata-coords");
     if (
       p1.getTurn() &&
       e.target.hasAttribute("truedata-coords") &&
-      p1.checkFiredOnLocations(
-        e.target.getAttribute("truedata-coords").split("")
-      ) === false
+      p1.checkFiredOnLocations(coordsToAttack[0], coordsToAttack.slice(1)) ===
+        false
     ) {
-      const coordsToAttack = e.target.getAttribute("truedata-coords");
       p1.attackBoard(p2, coordsToAttack[0], coordsToAttack.slice(1));
       colorHit(e.target, p2, coordsToAttack);
       testForWinner(p2, p1);
