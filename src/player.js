@@ -47,7 +47,7 @@ const player = () => {
   };
 
   const attackBoard = (plyr, row, column) => {
-    if (turn && checkFiredOnLocations(row, column) === false) {
+    if (turn/*&& checkFiredOnLocations(row, column) === false*/) {
       plyr.brd.receiveAttack(row, column);
       firedOnLocations.push([row, column]);
       setTurn(false);
@@ -59,13 +59,12 @@ const player = () => {
   const computerAttack = (plyr) => {
     const row = getRandomRow();
     const column = getRandomColumn();
-    if (computer) {
+    if (computer /*&& checkFiredOnLocations(row, column) === false*/) {
       attackBoard(plyr, row, column);
       colorHit(
-        document.querySelector(
-          `[falsedata-coords=${row + column}]`),
-          plyr,
-          `${row + column}`
+        document.querySelector(`[falsedata-coords=${row + column}]`),
+        plyr,
+        `${row + column}`
       );
     }
     return false;
@@ -80,6 +79,7 @@ const player = () => {
     brd,
     attackBoard,
     computerAttack,
+    checkFiredOnLocations
   };
 };
 

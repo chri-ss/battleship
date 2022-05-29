@@ -24,21 +24,20 @@ const testForWinner = (plyr, otherPlyr) => {
 const attackListener = (p1, p2) => {
   const boardArea = document.querySelector(".board-area");
   boardArea.addEventListener("click", (e) => {
-    if (p1.getTurn() && e.target.hasAttribute("truedata-coords")) {
+    if (
+      p1.getTurn() &&
+      e.target.hasAttribute("truedata-coords") &&
+      p1.checkFiredOnLocations(
+        e.target.getAttribute("truedata-coords").split("")
+      ) === false
+    ) {
       const coordsToAttack = e.target.getAttribute("truedata-coords");
-      p1.attackBoard(p2, coordsToAttack[0], coordsToAttack[1]);
+      p1.attackBoard(p2, coordsToAttack[0], coordsToAttack.slice(1));
       colorHit(e.target, p2, coordsToAttack);
       testForWinner(p2, p1);
-      // } else if (p2.getTurn() && e.target.hasAttribute("falsedata-coords")) {
-      //   const coordsToAttack = e.target.getAttribute("falsedata-coords");
-      //   p2.attackBoard(p1, coordsToAttack[0], coordsToAttack[1]);
-      //   colorHit(e.target, p1, coordsToAttack);
-      //   testForWinner(p1, p2);
-      //   console.log(p1);
-      // }
-
       p2.computerAttack(p1);
-      console.log(p1, p2);
+      console.log(p1, p2, coordsToAttack[0], coordsToAttack.slice(1));
+      testForWinner(p1, p2);
     }
   });
 };
@@ -47,7 +46,6 @@ const runGame = (p1, p2) => {
   populateBoard(p1);
   populateBoard(p2);
   updateBoard(p1);
-  // updateBoard(p2);
   attackListener(p1, p2);
 };
 
