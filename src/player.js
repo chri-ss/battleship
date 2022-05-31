@@ -1,5 +1,4 @@
 import { gameboard } from "./gameboard";
-import { ship } from "./ships";
 import { colorHit } from "./DOM";
 
 const player = () => {

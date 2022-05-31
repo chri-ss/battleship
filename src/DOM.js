@@ -1,8 +1,8 @@
 import tile from "./images/tile048.png";
-import player from "./player";
 
 const content = document.getElementById("content");
 const boardArea = document.createElement("div");
+const modal = document.createElement("div");
 
 const makeHeader = () => {
   const header = document.createElement("div");
@@ -79,6 +79,16 @@ const makeBoardArea = () => {
   content.appendChild(boardArea);
 };
 
+const clearBoard = () => {
+  while (boardArea.firstChild) {
+    boardArea.removeChild(boardArea.lastChild);
+  }
+};
+
+const clearModal = () => {
+  content.removeChild(modal);
+};
+
 const colorHit = (gridTile, plyr, coords) => {
   if (plyr.brd.board[coords[0]][coords[1] - 1] === "x") {
     gridTile.style.background = "red";
@@ -87,11 +97,18 @@ const colorHit = (gridTile, plyr, coords) => {
   }
 };
 
+const makeResetButton = () => {
+  const resetButton = document.createElement("button");
+  resetButton.classList.add("reset-button");
+  resetButton.textContent = "Play Again?";
+  modal.appendChild(resetButton);
+};
+
 const displayWinner = (otherPlyr) => {
-  const modal = document.createElement("div");
-  modal.classList.add(".modal");
+  modal.classList.add("modal");
   if (otherPlyr) modal.textContent = `${otherPlyr.name} wins!`;
   content.appendChild(modal);
+  makeResetButton();
 };
 
 const makeUI = () => {
@@ -100,4 +117,12 @@ const makeUI = () => {
   makeShipArea();
 };
 
-export { makeUI, makeBoard, updateBoard, colorHit, displayWinner };
+export {
+  makeUI,
+  makeBoard,
+  updateBoard,
+  clearBoard,
+  clearModal,
+  colorHit,
+  displayWinner,
+};

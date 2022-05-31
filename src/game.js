@@ -1,5 +1,12 @@
 import player from "./player";
-import { makeBoard, updateBoard, colorHit, displayWinner } from "./DOM";
+import {
+  makeBoard,
+  updateBoard,
+  colorHit,
+  clearBoard,
+  displayWinner,
+  clearModal,
+} from "./DOM";
 import { ship } from "./ships";
 
 const populateBoard = (plyr) => {
@@ -15,9 +22,21 @@ const populateBoard = (plyr) => {
   plyr.brd.placeShip(destroyer, "horizontal", "H", 1);
 };
 
+const resetGameListener = () => {
+  const resetButton = document.querySelector(".reset-button");
+  console.log(resetButton);
+  resetButton.addEventListener("click", () => {
+    clearBoard();
+    initializeGame();
+    clearModal();
+  });
+};
+
 const testForWinner = (plyr, otherPlyr) => {
   if (plyr.brd.allShipsSunk()) {
     displayWinner(otherPlyr);
+    resetGameListener();
+    console.log(p1, p2);
   }
 };
 
@@ -48,20 +67,23 @@ const runGame = (p1, p2) => {
   attackListener(p1, p2);
 };
 
+const initializeGame = () => {
+  const newGameButton = document.querySelector(".start-game");
+  const p1 = player();
+  const p2 = player();
+  p1.name = "p1";
+  p2.name = "p2";
+  p1.setTurn(true);
+  p2.setComp(true);
+  makeBoard(p1);
+  makeBoard(p2);
+  newGameButton.disabled = true;
+  runGame(p1, p2);
+};
+
 const newGameListener = () => {
   const newGameButton = document.querySelector(".start-game");
-  newGameButton.addEventListener("click", () => {
-    const p1 = player();
-    const p2 = player();
-    p1.name = "p1";
-    p2.name = "p2";
-    p1.setTurn(true);
-    p2.setComp(true);
-    makeBoard(p1);
-    makeBoard(p2);
-    newGameButton.disabled = true;
-    runGame(p1, p2);
-  });
+  newGameButton.addEventListener("click", initializeGame);
 };
 
 export { newGameListener };
