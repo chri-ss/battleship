@@ -45,7 +45,7 @@ const gameboard = () => {
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
       if (i >= 0 && i < 10) {
         board[startRow][i] = shipType.hitArray[i - startColumn + 1];
-        shipType.placementArray.push([startRow, i + 1]);
+        shipType.placementArray.push([startRow, i]);
       }
     }
   };
@@ -84,28 +84,30 @@ const gameboard = () => {
       board[row][column - 1] = "x";
       ships.forEach((shipp) => {
         shipp.placementArray.forEach((coords) => {
-          if (coords[0] === row && coords[1] === column) {
+          if (coords[0] === row && coords[1] === column - 1) {
             shipp.hit(shipp.placementArray.indexOf(coords));
           }
         });
       });
       return true;
     }
+    if (board[row][column - 1] === "x") {
+      return false;
+    }
     board[row][column - 1] = "m";
     return false;
   };
 
   const allShipsSunk = () => {
-    let allSunk = false;
+    const sunkArray = [];
     ships.forEach((shipp) => {
-      if (shipp.isSunk(shipp.hitArray)) {
-        allSunk = true;
-      } else {
-        allSunk = false;
-      }
+      sunkArray.push(shipp.isSunk());
     });
-    return allSunk;
+    const equalsTrue = (curr) => curr === true;
+
+    return sunkArray.every(equalsTrue);
   };
+
 
   return { board, placeShip, receiveAttack, ships, allShipsSunk };
 };

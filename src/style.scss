@@ -1,0 +1,78 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+#content {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 2fr 8fr 5fr;
+}
+
+.header {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  background-color: #324452;
+  color: #fff;
+
+  .title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 3rem;
+  }
+
+  .start-game {
+    width: 10rem;
+    border: none;
+    border-radius: 10px;
+  }
+}
+
+.ship-area {
+  background-color: #749395;
+}
+
+.board-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 10fr;
+  background-color: #afbcc0;
+  align-items: center;
+  justify-items: center;
+  border-bottom: 2px solid #324452;
+
+  .board-title {
+    grid-row: 1/2;
+    align-self: end;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .new-board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    border: 1px solid #324452;
+    height: 80%;
+    aspect-ratio: 1/1;
+    grid-row: 2/3;
+  }
+
+  .grid-tile {
+    border: 1px solid #324452;
+    background-size: cover;
+  }
+}
+
+.modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  right: 50%;
+  background: lime;
+  padding: 3rem;
+}

@@ -1,4 +1,5 @@
 import { gameboard } from "./gameboard";
+import { colorHit } from "./DOM";
 
 const player = () => {
   let turn = false;
@@ -30,19 +31,20 @@ const player = () => {
   };
 
   const checkFiredOnLocations = (row, column) => {
-    firedOnLocations.forEach((location) => {
-      if (location[0] === row && location[1] === column) {
-        return true;
-      }
-    });
+    if (
+      JSON.stringify(firedOnLocations).includes(JSON.stringify([row, column]))
+    ) {
+      return true;
+    }
     return false;
   };
 
   const attackBoard = (plyr, row, column) => {
-    if (turn && checkFiredOnLocations(row, column) === false) {
+    if (turn) {
       plyr.brd.receiveAttack(row, column);
       firedOnLocations.push([row, column]);
       setTurn(false);
+      plyr.setTurn(true);
     }
     return firedOnLocations;
   };
@@ -50,9 +52,15 @@ const player = () => {
   const computerAttack = (plyr) => {
     const row = getRandomRow();
     const column = getRandomColumn();
-    if (computer) {
+    if (computer && checkFiredOnLocations(row, column) === false) {
       attackBoard(plyr, row, column);
-      return true;
+      colorHit(
+        document.querySelector(`[falsedata-coords=${row + column}]`),
+        plyr,
+        `${row + column}`
+      );
+    } else {
+      computerAttack(plyr);
     }
     return false;
   };
@@ -62,9 +70,11 @@ const player = () => {
     setTurn,
     getComp,
     setComp,
+    firedOnLocations,
     brd,
     attackBoard,
     computerAttack,
+    checkFiredOnLocations,
   };
 };
 

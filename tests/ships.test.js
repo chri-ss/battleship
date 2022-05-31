@@ -18,7 +18,11 @@ test("Ship has method for marking a hit (hits index)", () => {
 });
 
 test("isSunk determines if all pieces of ship hit", () => {
-  expect(ship(4).isSunk(["x", "x", "x", "x"])).toBe(true);
+  const s = ship(4);
+  for (let i = 0; i < s.length; ++i) {
+    s.hit(i);
+  }
+  expect(s.isSunk()).toBe(true);
 });
 
 test("isSunk determines if a ship is not sunk if one piece is not hit", () => {

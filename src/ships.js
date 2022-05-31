@@ -9,10 +9,10 @@ const ship = (length) => {
     return hitArray;
   };
 
-  const isSunk = (hitArray) => {
+  const isSunk = () => {
     let sunk = true;
     // eslint-disable-next-line no-unreachable-loop
-    for (let i = 0; i < length; ++i) {
+    for (let i = 0; i < hitArray.length; ++i) {
       if (hitArray[i] !== "x") {
         sunk = false;
       }
