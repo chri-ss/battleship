@@ -9,6 +9,18 @@ import {
 } from "./DOM";
 import { ship } from "./ships";
 
+let orientation = "horizontal";
+
+const orientationListener = () => {
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "KeyV") {
+      orientation = "vertical";
+    } else if (e.code === "KeyH") {
+      orientation = "horizontal";
+    }
+  });
+};
+
 const placeShipListener = (plyr, otherPlyr, ships) => {
   const boardArea = document.querySelector(".board-area");
   let counter = 0;
@@ -16,7 +28,7 @@ const placeShipListener = (plyr, otherPlyr, ships) => {
     if (e.target.hasAttribute("falsedata-coords") && counter < 5) {
       let coords = e.target.getAttribute("falsedata-coords");
       coords = [coords[0], coords.slice(1)];
-      plyr.brd.placeShip(ships[counter], "horizontal", coords[0], coords[1]);
+      plyr.brd.placeShip(ships[counter], orientation, coords[0], coords[1]);
       updateBoard(plyr);
       counter++;
     }
@@ -101,6 +113,7 @@ const initializeGame = () => {
 };
 
 const newGameListener = () => {
+  orientationListener();
   const newGameButton = document.querySelector(".start-game");
   newGameButton.addEventListener("click", initializeGame);
 };
