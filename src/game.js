@@ -9,7 +9,7 @@ import {
 } from "./DOM";
 import { ship } from "./ships";
 
-const placeShipListener = (plyr, ships) => {
+const placeShipListener = (plyr, otherPlyr, ships) => {
   const boardArea = document.querySelector(".board-area");
   let counter = 0;
   boardArea.addEventListener("click", (e) => {
@@ -20,10 +20,13 @@ const placeShipListener = (plyr, ships) => {
       updateBoard(plyr);
       counter++;
     }
+    if (counter >= 5) {
+      addAttackListener(plyr, otherPlyr);
+    }
   });
 };
 
-const populateBoard = (plyr) => {
+const populateBoard = (plyr, otherPlyr) => {
   const carrier = ship(5);
   const battleship = ship(4);
   const cruiser = ship(3);
@@ -31,7 +34,7 @@ const populateBoard = (plyr) => {
   const destroyer = ship(2);
   const ships = [carrier, battleship, cruiser, submarine, destroyer];
   if (plyr.name === "p1") {
-    placeShipListener(plyr, ships);
+    placeShipListener(plyr, otherPlyr, ships);
   } else {
     plyr.brd.placeShip(carrier, "horizontal", "A", 2);
     plyr.brd.placeShip(battleship, "vertical", "C", 8);
@@ -43,7 +46,6 @@ const populateBoard = (plyr) => {
 
 const resetGameListener = () => {
   const resetButton = document.querySelector(".reset-button");
-  console.log(resetButton);
   resetButton.addEventListener("click", () => {
     clearBoard();
     initializeGame();
@@ -59,7 +61,7 @@ const testForWinner = (plyr, otherPlyr) => {
   }
 };
 
-const attackListener = (p1, p2) => {
+const addAttackListener = (p1, p2) => {
   const boardArea = document.querySelector(".board-area");
   boardArea.addEventListener("click", (e) => {
     const coordsToAttack = e.target.getAttribute("truedata-coords");
@@ -80,10 +82,8 @@ const attackListener = (p1, p2) => {
 };
 
 const runGame = (p1, p2) => {
-  populateBoard(p1);
-  populateBoard(p2);
-  // updateBoard(p1);
-  attackListener(p1, p2);
+  populateBoard(p1, p2);
+  populateBoard(p2, p1);
 };
 
 const initializeGame = () => {
