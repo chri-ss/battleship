@@ -6,6 +6,7 @@ import {
   clearBoard,
   displayWinner,
   clearModal,
+  shipPlaceHover,
 } from "./DOM";
 import { ship } from "./ships";
 
@@ -22,6 +23,7 @@ const orientationListener = () => {
 };
 
 const placeShipListener = (plyr, otherPlyr, ships) => {
+  shipPlaceHover();
   const boardArea = document.querySelector(".board-area");
   let counter = 0;
   boardArea.addEventListener("click", (e) => {
@@ -99,6 +101,7 @@ const runGame = (p1, p2) => {
 };
 
 const initializeGame = () => {
+  orientation = "horizontal";
   const newGameButton = document.querySelector(".start-game");
   const p1 = player();
   const p2 = player();

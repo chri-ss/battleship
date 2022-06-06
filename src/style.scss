@@ -55,15 +55,21 @@ body {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    border: 1px solid #324452;
+    // border: 1px solid #324452;
     height: 80%;
     aspect-ratio: 1/1;
     grid-row: 2/3;
   }
 
   .grid-tile {
-    border: 1px solid #324452;
+    height: 100%;
+    width: 100%;
+    border: 2px solid #324452;
     background-size: cover;
+  }
+
+  .shadow {
+    background: rgba(50, 68, 82, 1) !important;
   }
 }
 

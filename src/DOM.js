@@ -111,6 +111,19 @@ const displayWinner = (otherPlyr) => {
   makeResetButton();
 };
 
+const shipPlaceHover = (ship, orientation) => {
+  boardArea.addEventListener("mouseover", (e) => {
+    if (e.target.hasAttribute("falsedata-coords")) {
+      e.target.classList.add("shadow");
+    }
+  });
+  boardArea.addEventListener("mouseout", (e) => {
+    if (e.target.hasAttribute("falsedata-coords")) {
+      e.target.classList.remove("shadow");
+    }
+  });
+};
+
 const makeUI = () => {
   makeHeader();
   makeBoardArea();
@@ -125,4 +138,5 @@ export {
   clearModal,
   colorHit,
   displayWinner,
+  shipPlaceHover,
 };
