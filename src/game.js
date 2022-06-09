@@ -6,25 +6,38 @@ import {
   clearBoard,
   displayWinner,
   clearModal,
+  shipPlaceHover,
+  orientationListener,
+  orientation,
 } from "./DOM";
 import { ship } from "./ships";
 
-const populateBoard = (plyr) => {
-  const carrier = ship(5);
-  const battleship = ship(4);
-  const cruiser = ship(3);
-  const submarine = ship(3);
-  const destroyer = ship(2);
-  plyr.brd.placeShip(carrier, "horizontal", "A", 2);
-  plyr.brd.placeShip(battleship, "vertical", "C", 8);
-  plyr.brd.placeShip(cruiser, "vertical", "D", 2);
-  plyr.brd.placeShip(submarine, "vertical", "E", 5);
-  plyr.brd.placeShip(destroyer, "horizontal", "H", 1);
+const placeShipListener = (ships, plyr, otherPlyr) => {
+  shipPlaceHover(ships, orientation);
+  const boardArea = document.querySelector(".board-area");
+  let counter = 0;
+  boardArea.addEventListener("click", (e) => {
+    if (e.target.hasAttribute("falsedata-coords") && counter < 5) {
+      let coords = e.target.getAttribute("falsedata-coords");
+      coords = [coords[0], coords.slice(1)];
+      plyr.brd.placeShip(
+        ships[counter],
+        orientation.current,
+        coords[0],
+        coords[1]
+      );
+      ships[counter].placed = true;
+      updateBoard(plyr);
+      counter++;
+    }
+    if (counter >= 5) {
+      addAttackListener(plyr, otherPlyr);
+    }
+  });
 };
 
 const resetGameListener = () => {
   const resetButton = document.querySelector(".reset-button");
-  console.log(resetButton);
   resetButton.addEventListener("click", () => {
     clearBoard();
     initializeGame();
@@ -36,11 +49,10 @@ const testForWinner = (plyr, otherPlyr) => {
   if (plyr.brd.allShipsSunk()) {
     displayWinner(otherPlyr);
     resetGameListener();
-    console.log(p1, p2);
   }
 };
 
-const attackListener = (p1, p2) => {
+const addAttackListener = (p1, p2) => {
   const boardArea = document.querySelector(".board-area");
   boardArea.addEventListener("click", (e) => {
     const coordsToAttack = e.target.getAttribute("truedata-coords");
@@ -60,11 +72,27 @@ const attackListener = (p1, p2) => {
   });
 };
 
+const populateBoard = (plyr, otherPlyr) => {
+  const carrier = ship(5);
+  const battleship = ship(4);
+  const cruiser = ship(3);
+  const submarine = ship(3);
+  const destroyer = ship(2);
+  const ships = [carrier, battleship, cruiser, submarine, destroyer];
+  if (plyr.name === "p1") {
+    placeShipListener(ships, plyr, otherPlyr);
+  } else {
+    plyr.brd.placeShip(carrier, "horizontal", "A", 2);
+    plyr.brd.placeShip(battleship, "vertical", "C", 8);
+    plyr.brd.placeShip(cruiser, "vertical", "D", 2);
+    plyr.brd.placeShip(submarine, "vertical", "E", 5);
+    plyr.brd.placeShip(destroyer, "horizontal", "H", 1);
+  }
+};
+
 const runGame = (p1, p2) => {
-  populateBoard(p1);
-  populateBoard(p2);
-  updateBoard(p1);
-  attackListener(p1, p2);
+  populateBoard(p1, p2);
+  populateBoard(p2, p1);
 };
 
 const initializeGame = () => {
@@ -82,8 +110,9 @@ const initializeGame = () => {
 };
 
 const newGameListener = () => {
+  orientationListener();
   const newGameButton = document.querySelector(".start-game");
   newGameButton.addEventListener("click", initializeGame);
 };
 
-export { newGameListener };
+export { newGameListener, orientation };

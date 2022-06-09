@@ -19,7 +19,7 @@ const gameboard = () => {
 
   const checkForInvalidSpacesHorizontal = (shipType, startRow, startColumn) => {
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
-      if (board[startRow][i] === "o" || i > 10) {
+      if (board[startRow][i] === "o" || i >= 10) {
         throw new Error("Ship out of bounds");
       }
     }
@@ -31,7 +31,7 @@ const gameboard = () => {
         board[String.fromCharCode(startRow.charCodeAt(0) + i)][
           startColumn - 1
         ] === "o" ||
-        startRow.charCodeAt(0) + i >= 74
+        startRow.charCodeAt(0) + i > 74
       ) {
         throw new Error("Ship out of bounds");
       }
