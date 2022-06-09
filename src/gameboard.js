@@ -31,7 +31,7 @@ const gameboard = () => {
         board[String.fromCharCode(startRow.charCodeAt(0) + i)][
           startColumn - 1
         ] === "o" ||
-        startRow.charCodeAt(0) + i >= 74
+        startRow.charCodeAt(0) + i > 74
       ) {
         throw new Error("Ship out of bounds");
       }

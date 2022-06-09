@@ -71,6 +71,11 @@ body {
   .shadow {
     background: rgba(50, 68, 82, 1) !important;
   }
+
+  .message {
+    position: absolute;
+    z-index: 999;
+  }
 }
 
 .modal {
