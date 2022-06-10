@@ -110,7 +110,7 @@ const initializeGame = () => {
 };
 
 const newGameListener = () => {
-  orientationListener();
+  // orientationListener();
   const newGameButton = document.querySelector(".start-game");
   newGameButton.addEventListener("click", initializeGame);
 };

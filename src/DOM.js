@@ -4,7 +4,15 @@ const content = document.getElementById("content");
 const boardArea = document.createElement("div");
 const modal = document.createElement("div");
 
-const orientation = { current: "horizontal" };
+const orientation = {
+  current: "horizontal",
+  previous: "vertical",
+  swap() {
+    const temp = this.current;
+    this.current = this.previous;
+    this.previous = temp;
+  },
+};
 let origin;
 let currentShip;
 
@@ -115,7 +123,8 @@ const displayWinner = (otherPlyr) => {
   makeResetButton();
 };
 
-const makeShipShadow = (o) => {
+const toggleShipShadow = (o, action) => {
+  console.log(action);
   const column = origin.getAttribute("falsedata-coords").slice(1);
   const row = origin.getAttribute("falsedata-coords")[0];
   if (o === "horizontal") {
@@ -123,7 +132,11 @@ const makeShipShadow = (o) => {
       const divToMark = document.querySelector(
         `[falsedata-coords="${row + i}"]`
       );
-      divToMark.classList.add("shadow");
+      if (action === "add") {
+        divToMark.classList.add("shadow");
+      } else if (action === "remove") {
+        divToMark.classList.remove("shadow");
+      }
     }
   } else if (o === "vertical") {
     for (
@@ -134,48 +147,69 @@ const makeShipShadow = (o) => {
       const divToMark = document.querySelector(
         `[falsedata-coords="${String.fromCharCode(i) + column}"]`
       );
-      divToMark.classList.add("shadow");
+      if (action === "add") {
+        divToMark.classList.add("shadow");
+      } else if (action === "remove") {
+        divToMark.classList.remove("shadow");
+      }
     }
   }
 };
 
-const removeShipShadow = (o) => {
-  console.log(origin);
-  const column = origin.getAttribute("falsedata-coords").slice(1);
-  const row = origin.getAttribute("falsedata-coords")[0];
-  if (o === "horizontal") {
-    for (let i = column; i < parseInt(column) + currentShip.length; ++i) {
-      const divToMark = document.querySelector(
-        `[falsedata-coords="${row + i}"]`
-      );
-      divToMark.classList.remove("shadow");
-    }
-  } else if (o === "vertical") {
-    for (
-      let i = row.charCodeAt(0);
-      i < row.charCodeAt(0) + currentShip.length;
-      ++i
-    ) {
-      const divToMark = document.querySelector(
-        `[falsedata-coords="${String.fromCharCode(i) + column}"]`
-      );
-      divToMark.classList.remove("shadow");
-    }
-  }
-};
+// const makeShipShadow = (o) => {
+//   const column = origin.getAttribute("falsedata-coords").slice(1);
+//   const row = origin.getAttribute("falsedata-coords")[0];
+//   if (o === "horizontal") {
+//     for (let i = column; i < parseInt(column) + currentShip.length; ++i) {
+//       const divToMark = document.querySelector(
+//         `[falsedata-coords="${row + i}"]`
+//       );
+//       divToMark.classList.add("shadow");
+//     }
+//   } else if (o === "vertical") {
+//     for (
+//       let i = row.charCodeAt(0);
+//       i < row.charCodeAt(0) + currentShip.length;
+//       ++i
+//     ) {
+//       const divToMark = document.querySelector(
+//         `[falsedata-coords="${String.fromCharCode(i) + column}"]`
+//       );
+//       divToMark.classList.add("shadow");
+//     }
+//   }
+// };
+
+// const removeShipShadow = (o) => {
+//   const column = origin.getAttribute("falsedata-coords").slice(1);
+//   const row = origin.getAttribute("falsedata-coords")[0];
+//   if (o === "horizontal") {
+//     for (let i = column; i < parseInt(column) + currentShip.length; ++i) {
+//       const divToMark = document.querySelector(
+//         `[falsedata-coords="${row + i}"]`
+//       );
+//       divToMark.classList.remove("shadow");
+//     }
+//   } else if (o === "vertical") {
+//     for (
+//       let i = row.charCodeAt(0);
+//       i < row.charCodeAt(0) + currentShip.length;
+//       ++i
+//     ) {
+//       const divToMark = document.querySelector(
+//         `[falsedata-coords="${String.fromCharCode(i) + column}"]`
+//       );
+//       divToMark.classList.remove("shadow");
+//     }
+//   }
+// };
 
 const orientationListener = () => {
   document.addEventListener("keydown", (e) => {
-    if (e.code === "KeyV") {
-      orientation.current = "vertical";
-      orientation.previous = "horizontal";
-      removeShipShadow(orientation.previous);
-      makeShipShadow(orientation.current);
-    } else if (e.code === "KeyH") {
-      orientation.current = "horizontal";
-      orientation.previous = "vertical";
-      removeShipShadow(orientation.previous);
-      makeShipShadow(orientation.current);
+    if (e.code === "KeyT") {
+      toggleShipShadow(orientation.current, "remove");
+      orientation.swap();
+      toggleShipShadow(orientation.current, "add");
     }
   });
 };
@@ -189,12 +223,12 @@ const shipPlaceHover = (ships) => {
       }
       origin = e.target;
       currentShip = ships[counter];
-      makeShipShadow(orientation.current);
+      toggleShipShadow(orientation.current, "add");
     }
   });
   boardArea.addEventListener("mouseout", (e) => {
     if (e.target.hasAttribute("falsedata-coords")) {
-      removeShipShadow(orientation.current);
+      toggleShipShadow(orientation.current, "remove");
     }
   });
   orientationListener();
