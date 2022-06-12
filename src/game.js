@@ -7,8 +7,9 @@ import {
   displayWinner,
   clearModal,
   shipPlaceHover,
-  orientationListener,
+  toggleShipShadow,
   orientation,
+  removeResidualRed,
 } from "./DOM";
 import { ship } from "./ships";
 
@@ -17,21 +18,33 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
   const boardArea = document.querySelector(".board-area");
   let counter = 0;
   boardArea.addEventListener("click", (e) => {
-    if (e.target.hasAttribute("falsedata-coords") && counter < 5) {
-      let coords = e.target.getAttribute("falsedata-coords");
-      coords = [coords[0], coords.slice(1)];
-      plyr.brd.placeShip(
-        ships[counter],
+    try {
+      if (e.target.hasAttribute("falsedata-coords") && counter < 5) {
+        let coords = e.target.getAttribute("falsedata-coords");
+        coords = [coords[0], coords.slice(1)];
+        plyr.brd.placeShip(
+          ships[counter],
+          orientation.current,
+          coords[0],
+          coords[1]
+        );
+        ships[counter].placed = true;
+        updateBoard(plyr);
+        counter++;
+      }
+      if (counter >= 5) {
+        addAttackListener(plyr, otherPlyr);
+      }
+    } catch {
+      toggleShipShadow(orientation.current, "add", "shadow-red");
+      setTimeout(
+        toggleShipShadow,
+        100,
         orientation.current,
-        coords[0],
-        coords[1]
+        "remove",
+        "shadow-red"
       );
-      ships[counter].placed = true;
-      updateBoard(plyr);
-      counter++;
-    }
-    if (counter >= 5) {
-      addAttackListener(plyr, otherPlyr);
+      setTimeout(removeResidualRed, 100);
     }
   });
 };
@@ -110,7 +123,7 @@ const initializeGame = () => {
 };
 
 const newGameListener = () => {
-  orientationListener();
+  // orientationListener();
   const newGameButton = document.querySelector(".start-game");
   newGameButton.addEventListener("click", initializeGame);
 };

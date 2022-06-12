@@ -4,7 +4,15 @@ const content = document.getElementById("content");
 const boardArea = document.createElement("div");
 const modal = document.createElement("div");
 
-const orientation = { current: "horizontal" };
+const orientation = {
+  current: "horizontal",
+  previous: "vertical",
+  swap() {
+    const temp = this.current;
+    this.current = this.previous;
+    this.previous = temp;
+  },
+};
 let origin;
 let currentShip;
 
@@ -115,69 +123,52 @@ const displayWinner = (otherPlyr) => {
   makeResetButton();
 };
 
-const makeShipShadow = (o) => {
-  const column = origin.getAttribute("falsedata-coords").slice(1);
-  const row = origin.getAttribute("falsedata-coords")[0];
-  if (o === "horizontal") {
-    for (let i = column; i < parseInt(column) + currentShip.length; ++i) {
-      const divToMark = document.querySelector(
-        `[falsedata-coords="${row + i}"]`
-      );
-      divToMark.classList.add("shadow");
+const toggleShipShadow = (o, action, CSSclass) => {
+  try {
+    const column = origin.getAttribute("falsedata-coords").slice(1);
+    const row = origin.getAttribute("falsedata-coords")[0];
+    if (o === "horizontal") {
+      for (let i = column; i < parseInt(column) + currentShip.length; ++i) {
+        const divToMark = document.querySelector(
+          `[falsedata-coords="${row + i}"]`
+        );
+        if (action === "add") {
+          divToMark.classList.add(CSSclass);
+        } else if (action === "remove") {
+          divToMark.classList.remove(CSSclass);
+        }
+      }
+    } else if (o === "vertical") {
+      for (
+        let i = row.charCodeAt(0);
+        i < row.charCodeAt(0) + currentShip.length;
+        ++i
+      ) {
+        const divToMark = document.querySelector(
+          `[falsedata-coords="${String.fromCharCode(i) + column}"]`
+        );
+        if (action === "add") {
+          divToMark.classList.add(CSSclass);
+        } else if (action === "remove") {
+          divToMark.classList.remove(CSSclass);
+        }
+      }
     }
-  } else if (o === "vertical") {
-    for (
-      let i = row.charCodeAt(0);
-      i < row.charCodeAt(0) + currentShip.length;
-      ++i
-    ) {
-      const divToMark = document.querySelector(
-        `[falsedata-coords="${String.fromCharCode(i) + column}"]`
-      );
-      divToMark.classList.add("shadow");
-    }
+  } catch {
+    return false;
   }
 };
 
-const removeShipShadow = (o) => {
-  console.log(origin);
-  const column = origin.getAttribute("falsedata-coords").slice(1);
-  const row = origin.getAttribute("falsedata-coords")[0];
-  if (o === "horizontal") {
-    for (let i = column; i < parseInt(column) + currentShip.length; ++i) {
-      const divToMark = document.querySelector(
-        `[falsedata-coords="${row + i}"]`
-      );
-      divToMark.classList.remove("shadow");
-    }
-  } else if (o === "vertical") {
-    for (
-      let i = row.charCodeAt(0);
-      i < row.charCodeAt(0) + currentShip.length;
-      ++i
-    ) {
-      const divToMark = document.querySelector(
-        `[falsedata-coords="${String.fromCharCode(i) + column}"]`
-      );
-      divToMark.classList.remove("shadow");
-    }
+const orientationHandler = (e) => {
+  if (e.code === "KeyT") {
+    toggleShipShadow(orientation.current, "remove", "shadow");
+    orientation.swap();
+    toggleShipShadow(orientation.current, "add", "shadow");
   }
 };
 
 const orientationListener = () => {
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "KeyV") {
-      orientation.current = "vertical";
-      orientation.previous = "horizontal";
-      removeShipShadow(orientation.previous);
-      makeShipShadow(orientation.current);
-    } else if (e.code === "KeyH") {
-      orientation.current = "horizontal";
-      orientation.previous = "vertical";
-      removeShipShadow(orientation.previous);
-      makeShipShadow(orientation.current);
-    }
-  });
+  document.addEventListener("keydown", orientationHandler);
 };
 
 const shipPlaceHover = (ships) => {
@@ -189,15 +180,24 @@ const shipPlaceHover = (ships) => {
       }
       origin = e.target;
       currentShip = ships[counter];
-      makeShipShadow(orientation.current);
+      toggleShipShadow(orientation.current, "add", "shadow");
     }
   });
   boardArea.addEventListener("mouseout", (e) => {
     if (e.target.hasAttribute("falsedata-coords")) {
-      removeShipShadow(orientation.current);
+      toggleShipShadow(orientation.current, "remove", "shadow");
     }
   });
   orientationListener();
+};
+
+const removeResidualRed = () => {
+  const allTiles = document.querySelectorAll("[falsedata-coords]");
+  allTiles.forEach((tl) => {
+    if (tl.classList[1] === "shadow-red") {
+      tl.classList.remove("shadow-red");
+    }
+  });
 };
 
 const makeUI = () => {
@@ -215,6 +215,7 @@ export {
   colorHit,
   displayWinner,
   shipPlaceHover,
-  orientationListener,
+  toggleShipShadow,
   orientation,
+  removeResidualRed,
 };
