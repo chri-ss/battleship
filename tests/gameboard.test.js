@@ -79,7 +79,7 @@ describe("Detecting ship collisions/hits", () => {
   });
 
   test("placeShip can't place a ship overlapping another ship perpendiclar", () => {
-    expect(() => b.placeShip(ship(5), "vertical", "I", 5)).toThrow(
+    expect(() => b.placeShip(ship(5), "vertical", "B", 5)).toThrow(
       "Ship out of bounds"
     );
   });

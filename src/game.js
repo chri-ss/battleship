@@ -78,7 +78,16 @@ const addAttackListener = (p1, p2) => {
       p1.attackBoard(p2, coordsToAttack[0], coordsToAttack.slice(1));
       colorHit(e.target, p2, coordsToAttack);
       testForWinner(p2, p1);
-      p2.computerAttack(p1);
+      // p2.computerAttack(p1);
+      const computerMove = p2.computerAttack(p1);
+      console.log(computerMove);
+      colorHit(
+        document.querySelector(
+          `[falsedata-coords="${computerMove[0] + computerMove[1]}"]`
+        ),
+        p1,
+        `${computerMove[0] + computerMove[1]}`
+      );
       console.log(p1, p2, coordsToAttack[0], coordsToAttack.slice(1));
       testForWinner(p1, p2);
     }
@@ -95,11 +104,14 @@ const populateBoard = (plyr, otherPlyr) => {
   if (plyr.name === "p1") {
     placeShipListener(ships, plyr, otherPlyr);
   } else {
-    plyr.brd.placeShip(carrier, "horizontal", "A", 2);
-    plyr.brd.placeShip(battleship, "vertical", "C", 8);
-    plyr.brd.placeShip(cruiser, "vertical", "D", 2);
-    plyr.brd.placeShip(submarine, "vertical", "E", 5);
-    plyr.brd.placeShip(destroyer, "horizontal", "H", 1);
+    // plyr.brd.placeShip(carrier, "horizontal", "A", 2);
+    // plyr.brd.placeShip(battleship, "vertical", "C", 8);
+    // plyr.brd.placeShip(cruiser, "vertical", "D", 2);
+    // plyr.brd.placeShip(submarine, "vertical", "E", 5);
+    // plyr.brd.placeShip(destroyer, "horizontal", "H", 1);
+    ships.forEach((shipp) => {
+      plyr.computerShipPlace(shipp);
+    });
   }
 };
 

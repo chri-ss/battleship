@@ -1,5 +1,4 @@
 import { gameboard } from "./gameboard";
-import { colorHit } from "./DOM";
 
 const player = () => {
   let turn = false;
@@ -30,6 +29,11 @@ const player = () => {
     return row;
   };
 
+  const getRandomOrientation = () => {
+    let orientations = ["horizontal", "vertical"];
+    return orientations[Math.floor(Math.random() * orientations.length)];
+  };
+
   const checkFiredOnLocations = (row, column) => {
     if (
       JSON.stringify(firedOnLocations).includes(JSON.stringify([row, column]))
@@ -54,15 +58,25 @@ const player = () => {
     const column = getRandomColumn();
     if (computer && checkFiredOnLocations(row, column) === false) {
       attackBoard(plyr, row, column);
-      colorHit(
-        document.querySelector(`[falsedata-coords=${row + column}]`),
-        plyr,
-        `${row + column}`
-      );
-    } else {
-      computerAttack(plyr);
+      return [row, column];
     }
-    return false;
+    computerAttack(plyr);
+    // return false;
+  };
+
+  const computerShipPlace = (ship) => {
+    try {
+      brd.placeShip(
+        ship,
+        getRandomOrientation(),
+        getRandomRow(),
+        getRandomColumn()
+      );
+    } catch {
+      computerShipPlace(ship);
+    } finally {
+      console.log(brd);
+    }
   };
 
   return {
@@ -75,6 +89,7 @@ const player = () => {
     attackBoard,
     computerAttack,
     checkFiredOnLocations,
+    computerShipPlace,
   };
 };
 
