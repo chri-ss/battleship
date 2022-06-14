@@ -1,4 +1,5 @@
 import { gameboard } from "./gameboard";
+import { colorHit } from "./DOM";
 
 const player = () => {
   let turn = false;
@@ -58,10 +59,15 @@ const player = () => {
     const column = getRandomColumn();
     if (computer && checkFiredOnLocations(row, column) === false) {
       attackBoard(plyr, row, column);
-      return [row, column];
+      colorHit(
+        document.querySelector(`[falsedata-coords=${row + column}]`),
+        plyr,
+        `${row + column}`
+      );
+    } else {
+      computerAttack(plyr);
     }
-    computerAttack(plyr);
-    // return false;
+    return false;
   };
 
   const computerShipPlace = (ship) => {
