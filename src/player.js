@@ -30,6 +30,11 @@ const player = () => {
     return row;
   };
 
+  const getRandomOrientation = () => {
+    let orientations = ["horizontal", "vertical"];
+    return orientations[Math.floor(Math.random() * orientations.length)];
+  };
+
   const checkFiredOnLocations = (row, column) => {
     if (
       JSON.stringify(firedOnLocations).includes(JSON.stringify([row, column]))
@@ -65,6 +70,21 @@ const player = () => {
     return false;
   };
 
+  const computerShipPlace = (ship) => {
+    try {
+      brd.placeShip(
+        ship,
+        getRandomOrientation(),
+        getRandomRow(),
+        getRandomColumn()
+      );
+    } catch {
+      computerShipPlace(ship);
+    } finally {
+      console.log(brd);
+    }
+  };
+
   return {
     getTurn,
     setTurn,
@@ -75,6 +95,7 @@ const player = () => {
     attackBoard,
     computerAttack,
     checkFiredOnLocations,
+    computerShipPlace,
   };
 };
 

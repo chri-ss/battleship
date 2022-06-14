@@ -108,7 +108,6 @@ const gameboard = () => {
     return sunkArray.every(equalsTrue);
   };
 
-
   return { board, placeShip, receiveAttack, ships, allShipsSunk };
 };
 

@@ -16,5 +16,5 @@ test("attackBoard attacks enemy gameboard", () => {
 test("computer player can make a random attack", () => {
   p2.setComp(true);
 
-  expect(p2.computerAttack(p1)).toBe(true);
+  expect(p2.computerAttack(p1)).toHaveLength(2);
 });
