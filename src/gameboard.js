@@ -39,7 +39,9 @@ const gameboard = () => {
   };
 
   const placeHorizontal = (shipType, startRow, startColumn) => {
-    ships.push(shipType);
+    if (!ships.includes(shipType)) {
+      ships.push(shipType);
+    }
     shipType.placementArray = [];
     checkForInvalidSpacesHorizontal(shipType, startRow, startColumn);
     for (let i = startColumn - 1; i < startColumn - 1 + shipType.length; ++i) {
@@ -51,7 +53,9 @@ const gameboard = () => {
   };
 
   const placeVertical = (shipType, startRow, startColumn) => {
-    ships.push(shipType);
+    if (!ships.includes(shipType)) {
+      ships.push(shipType);
+    }
     shipType.placementArray = [];
     checkForInvalidSpacesVertical(shipType, startRow, startColumn);
     for (let i = 0; i < shipType.length; ++i) {

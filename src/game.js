@@ -55,6 +55,7 @@ const resetGameListener = () => {
     clearBoard();
     initializeGame();
     clearModal();
+    removeAttackListener();
   });
 };
 
@@ -65,25 +66,32 @@ const testForWinner = (plyr, otherPlyr) => {
   }
 };
 
+function attackListener(e, p1, p2) {
+  const coordsToAttack = e.target.getAttribute("truedata-coords");
+  if (
+    p1.getTurn() &&
+    e.target.hasAttribute("truedata-coords") &&
+    p1.checkFiredOnLocations(coordsToAttack[0], coordsToAttack.slice(1)) ===
+      false
+  ) {
+    p1.attackBoard(p2, coordsToAttack[0], coordsToAttack.slice(1));
+    colorHit(e.target, p2, coordsToAttack);
+    testForWinner(p2, p1);
+    p2.computerAttack(p1);
+
+    console.log(p1, p2, coordsToAttack[0], coordsToAttack.slice(1));
+    testForWinner(p1, p2);
+  }
+}
+
 const addAttackListener = (p1, p2) => {
   const boardArea = document.querySelector(".board-area");
-  boardArea.addEventListener("click", (e) => {
-    const coordsToAttack = e.target.getAttribute("truedata-coords");
-    if (
-      p1.getTurn() &&
-      e.target.hasAttribute("truedata-coords") &&
-      p1.checkFiredOnLocations(coordsToAttack[0], coordsToAttack.slice(1)) ===
-        false
-    ) {
-      p1.attackBoard(p2, coordsToAttack[0], coordsToAttack.slice(1));
-      colorHit(e.target, p2, coordsToAttack);
-      testForWinner(p2, p1);
-      p2.computerAttack(p1);
+  boardArea.addEventListener("click", (e) => attackListener(e, p1, p2));
+};
 
-      console.log(p1, p2, coordsToAttack[0], coordsToAttack.slice(1));
-      testForWinner(p1, p2);
-    }
-  });
+const removeAttackListener = () => {
+  const boardArea = document.querySelector(".board-area");
+  boardArea.removeEventListener("click", attackListener);
 };
 
 const populateBoard = (plyr, otherPlyr) => {
