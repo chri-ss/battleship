@@ -1,4 +1,5 @@
 import tile from "./images/tile048.png";
+import upArrow from "./images/arrow-up-circle.svg";
 
 const content = document.getElementById("content");
 const boardArea = document.createElement("div");
@@ -33,12 +34,6 @@ const makeHeader = () => {
 const makeShipArea = () => {
   const shipArea = document.createElement("div");
   shipArea.classList.add("ship-area");
-  const shipAreaOne = document.createElement("div");
-  shipAreaOne.classList.add("ship-area-one");
-  const shipAreaTwo = document.createElement("div");
-  shipAreaTwo.classList.add("ship-area-two");
-  shipArea.appendChild(shipAreaOne);
-  shipArea.appendChild(shipAreaTwo);
   content.appendChild(shipArea);
 };
 
@@ -102,7 +97,6 @@ const clearModal = () => {
 };
 
 const colorHit = (gridTile, plyr, coords) => {
-  console.log(coords.slice(1));
   if (plyr.brd.board[coords[0]][coords.slice(1) - 1] === "x") {
     gridTile.style.background = "red";
   } else {
@@ -201,6 +195,29 @@ const removeResidualRed = () => {
   });
 };
 
+const makeShipPlacePrompt = (ship) => {
+  const shipArea = document.querySelector(".ship-area");
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("wrapper");
+  const up = document.createElement("img");
+  up.src = upArrow;
+  const message = document.createElement("div");
+  message.textContent = "Place your Ships here\n Press 't' to rotate";
+  const placing = document.createElement("div");
+  placing.textContent = `Placing: ${ship}`;
+  wrapper.appendChild(up);
+  wrapper.appendChild(message);
+  wrapper.appendChild(placing);
+  shipArea.appendChild(wrapper);
+};
+
+const clearShipArea = () => {
+  const shipArea = document.querySelector(".ship-area");
+  while (shipArea.firstChild) {
+    shipArea.removeChild(shipArea.lastChild);
+  }
+};
+
 const makeUI = () => {
   makeHeader();
   makeBoardArea();
@@ -219,4 +236,6 @@ export {
   toggleShipShadow,
   orientation,
   removeResidualRed,
+  makeShipPlacePrompt,
+  clearShipArea,
 };

@@ -10,6 +10,8 @@ import {
   toggleShipShadow,
   orientation,
   removeResidualRed,
+  makeShipPlacePrompt,
+  clearShipArea,
 } from "./DOM";
 import { ship } from "./ships";
 
@@ -17,11 +19,13 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
   shipPlaceHover(ships, orientation);
   const boardArea = document.querySelector(".board-area");
   let counter = 0;
+  makeShipPlacePrompt(ships[counter].name);
   boardArea.addEventListener("click", (e) => {
     try {
       if (e.target.hasAttribute("falsedata-coords") && counter < 5) {
         let coords = e.target.getAttribute("falsedata-coords");
         coords = [coords[0], coords.slice(1)];
+
         plyr.brd.placeShip(
           ships[counter],
           orientation.current,
@@ -31,6 +35,8 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
         ships[counter].placed = true;
         updateBoard(plyr);
         counter++;
+        clearShipArea();
+        makeShipPlacePrompt(ships[counter].name);
       }
       if (counter >= 5) {
         addAttackListener(plyr, otherPlyr);
@@ -78,8 +84,6 @@ function attackListener(e, p1, p2) {
     colorHit(e.target, p2, coordsToAttack);
     testForWinner(p2, p1);
     p2.computerAttack(p1);
-
-    console.log(p1, p2, coordsToAttack[0], coordsToAttack.slice(1));
     testForWinner(p1, p2);
   }
 }
@@ -96,10 +100,15 @@ const removeAttackListener = () => {
 
 const populateBoard = (plyr, otherPlyr) => {
   const carrier = ship(5);
+  carrier.name = "carrier";
   const battleship = ship(4);
+  battleship.name = "battleship";
   const cruiser = ship(3);
+  cruiser.name = "cruiser";
   const submarine = ship(3);
+  submarine.name = "submarine";
   const destroyer = ship(2);
+  destroyer.name = "destroyer";
   const ships = [carrier, battleship, cruiser, submarine, destroyer];
   if (plyr.name === "p1") {
     placeShipListener(ships, plyr, otherPlyr);

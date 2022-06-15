@@ -80,8 +80,6 @@ const player = () => {
       );
     } catch {
       computerShipPlace(ship);
-    } finally {
-      console.log(brd);
     }
   };
 
@@ -90,6 +88,7 @@ const player = () => {
     setTurn,
     getComp,
     setComp,
+
     firedOnLocations,
     brd,
     attackBoard,
