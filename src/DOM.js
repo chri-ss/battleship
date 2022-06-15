@@ -102,7 +102,8 @@ const clearModal = () => {
 };
 
 const colorHit = (gridTile, plyr, coords) => {
-  if (plyr.brd.board[coords[0]][coords[1] - 1] === "x") {
+  console.log(coords.slice(1));
+  if (plyr.brd.board[coords[0]][coords.slice(1) - 1] === "x") {
     gridTile.style.background = "red";
   } else {
     gridTile.style.background = "blue";
