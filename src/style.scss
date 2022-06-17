@@ -40,12 +40,20 @@ body {
     width: 20%;
   }
 
-  .wrapper {
+  .ship-wrapper,
+  .attack-wrapper {
     display: grid;
-    grid-column: 1/2;
     justify-items: center;
     align-items: center;
     font-size: 32px;
+  }
+
+  .ship-wrapper {
+    grid-column: 1/2;
+  }
+
+  .attack-wrapper {
+    grid-column: 2/3;
   }
 }
 

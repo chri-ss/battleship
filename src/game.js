@@ -11,7 +11,9 @@ import {
   orientation,
   removeResidualRed,
   makeShipPlacePrompt,
+  updateShipPrompt,
   clearShipArea,
+  makeAttackPrompt,
 } from "./DOM";
 import { ship } from "./ships";
 
@@ -25,7 +27,6 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
       if (e.target.hasAttribute("falsedata-coords") && counter < 5) {
         let coords = e.target.getAttribute("falsedata-coords");
         coords = [coords[0], coords.slice(1)];
-
         plyr.brd.placeShip(
           ships[counter],
           orientation.current,
@@ -35,13 +36,15 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
         ships[counter].placed = true;
         updateBoard(plyr);
         counter++;
-        clearShipArea();
-        makeShipPlacePrompt(ships[counter].name);
-      }
-      if (counter >= 5) {
-        addAttackListener(plyr, otherPlyr);
+        if (counter >= 5) {
+          clearShipArea();
+          addAttackListener(plyr, otherPlyr);
+          makeAttackPrompt();
+        }
+        updateShipPrompt(ships[counter].name);
       }
     } catch {
+      console.log("aa");
       toggleShipShadow(orientation.current, "add", "shadow-red");
       setTimeout(
         toggleShipShadow,
@@ -59,6 +62,7 @@ const resetGameListener = () => {
   const resetButton = document.querySelector(".reset-button");
   resetButton.addEventListener("click", () => {
     clearBoard();
+    clearShipArea();
     initializeGame();
     clearModal();
     removeAttackListener();

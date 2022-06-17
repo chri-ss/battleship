@@ -198,17 +198,36 @@ const removeResidualRed = () => {
 const makeShipPlacePrompt = (ship) => {
   const shipArea = document.querySelector(".ship-area");
   const wrapper = document.createElement("div");
-  wrapper.classList.add("wrapper");
+  wrapper.classList.add("ship-wrapper");
   const up = document.createElement("img");
   up.src = upArrow;
   const message = document.createElement("div");
   message.textContent = "Place your Ships here\n Press 't' to rotate";
   const placing = document.createElement("div");
+  placing.classList.add("placing");
   placing.textContent = `Placing: ${ship}`;
   wrapper.appendChild(up);
   wrapper.appendChild(message);
   wrapper.appendChild(placing);
   shipArea.appendChild(wrapper);
+};
+
+const updateShipPrompt = (ship) => {
+  const placing = document.querySelector(".placing");
+  placing.textContent = `Placing: ${ship}`;
+};
+
+const makeAttackPrompt = () => {
+  const shipArea = document.querySelector(".ship-area");
+  const attackWrapper = document.createElement("div");
+  attackWrapper.classList.add("attack-wrapper");
+  const up = document.createElement("img");
+  up.src = upArrow;
+  const message = document.createElement("div");
+  message.textContent = "Attack your opponent here!";
+  attackWrapper.appendChild(up);
+  attackWrapper.appendChild(message);
+  shipArea.appendChild(attackWrapper);
 };
 
 const clearShipArea = () => {
@@ -237,5 +256,7 @@ export {
   orientation,
   removeResidualRed,
   makeShipPlacePrompt,
+  updateShipPrompt,
+  makeAttackPrompt,
   clearShipArea,
 };
