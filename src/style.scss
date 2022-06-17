@@ -32,7 +32,29 @@ body {
 }
 
 .ship-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   background-color: #749395;
+
+  img {
+    width: 20%;
+  }
+
+  .ship-wrapper,
+  .attack-wrapper {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    font-size: 32px;
+  }
+
+  .ship-wrapper {
+    grid-column: 1/2;
+  }
+
+  .attack-wrapper {
+    grid-column: 2/3;
+  }
 }
 
 .board-area {

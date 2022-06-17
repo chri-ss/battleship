@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 const ship = (length) => {
   const hitArray = [];
   for (let i = 0; i < length; ++i) {
