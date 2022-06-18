@@ -92,6 +92,13 @@ const clearBoard = () => {
   }
 };
 
+const clearShipArea = () => {
+  const shipArea = document.querySelector(".ship-area");
+  while (shipArea.firstChild) {
+    shipArea.removeChild(shipArea.lastChild);
+  }
+};
+
 const clearModal = () => {
   content.removeChild(modal);
 };
@@ -112,9 +119,11 @@ const makeResetButton = () => {
 };
 
 const displayWinner = (otherPlyr) => {
+  const shipArea = document.querySelector(".ship-area");
   modal.classList.add("modal");
   if (otherPlyr) modal.textContent = `${otherPlyr.name} wins!`;
-  content.appendChild(modal);
+  clearShipArea();
+  shipArea.appendChild(modal);
   makeResetButton();
 };
 
@@ -228,13 +237,6 @@ const makeAttackPrompt = () => {
   attackWrapper.appendChild(up);
   attackWrapper.appendChild(message);
   shipArea.appendChild(attackWrapper);
-};
-
-const clearShipArea = () => {
-  const shipArea = document.querySelector(".ship-area");
-  while (shipArea.firstChild) {
-    shipArea.removeChild(shipArea.lastChild);
-  }
 };
 
 const makeUI = () => {

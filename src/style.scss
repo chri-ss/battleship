@@ -30,12 +30,15 @@ body {
     font-size: 36px;
     font-weight: 700;
     letter-spacing: 3rem;
+    font-family: "holtwood", sans-serif;
   }
 
   .start-game {
     width: 10rem;
     border: none;
     border-radius: 10px;
+    background-color: #afbcc0;
+    font-size: 18px;
   }
 }
 
@@ -44,17 +47,22 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   background-color: #749395;
+  justify-items: center;
+  align-items: center;
 
   img {
-    width: 10rem;
+    width: 6rem;
   }
 
   .ship-wrapper,
   .attack-wrapper {
+    width: 50%;
     display: grid;
+    gap: 1rem;
     justify-items: center;
     align-items: center;
     font-size: 32px;
+    text-align: center;
   }
 
   .ship-wrapper {
@@ -106,19 +114,17 @@ body {
   .shadow-red {
     background: rgb(204, 56, 56, 1) !important;
   }
-
-  .message {
-    position: absolute;
-    z-index: 999;
-  }
 }
 
 .modal {
-  position: absolute;
   display: flex;
   flex-direction: column;
-  top: 50%;
-  right: 50%;
-  background: lime;
+  justify-content: center;
+  align-items: center;
+  background: #324452;
+  color: #fff;
   padding: 3rem;
+  grid-column: 1/3;
+  width: 50%;
+  height: 50%;
 }
