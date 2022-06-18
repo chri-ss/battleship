@@ -1,7 +1,15 @@
+@font-face {
+  font-family: "holtwood";
+  src: url("./fonts/HoltwoodOneSC-Regular.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
 body {
   height: 100vh;
   width: 100vw;
   box-sizing: border-box;
+  font-family: "holtwood", sans-serif;
 }
 
 #content {
@@ -34,10 +42,11 @@ body {
 .ship-area {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 1rem;
   background-color: #749395;
 
   img {
-    width: 20%;
+    width: 10rem;
   }
 
   .ship-wrapper,
