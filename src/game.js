@@ -62,6 +62,17 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
   });
 };
 
+const resetGameListener = () => {
+  const resetButton = document.querySelector(".reset-button");
+  resetButton.addEventListener("click", () => {
+    clearBoard();
+    clearShipArea();
+    removeAttackListener();
+    initializeGame();
+    clearModal();
+  });
+};
+
 const testForWinner = (plyr, otherPlyr) => {
   if (plyr.brd.allShipsSunk()) {
     displayWinner(otherPlyr);
@@ -93,17 +104,6 @@ const addAttackListener = () => {
 const removeAttackListener = () => {
   const boardArea = document.querySelector(".board-area");
   boardArea.removeEventListener("click", attackListener);
-};
-
-const resetGameListener = () => {
-  const resetButton = document.querySelector(".reset-button");
-  resetButton.addEventListener("click", () => {
-    clearBoard();
-    clearShipArea();
-    removeAttackListener();
-    initializeGame();
-    clearModal();
-  });
 };
 
 const populateBoard = (plyr, otherPlyr) => {

@@ -131,6 +131,7 @@ button {
   border-radius: 10px;
   background-color: #afbcc0;
   font-size: 18px;
+  border: 2px solid transparent;
 }
 
 button:hover {
@@ -147,5 +148,4 @@ button:active {
 button:disabled {
   background-color: #afbcc0;
   color: #6f808d;
-  border: none;
 }

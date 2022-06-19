@@ -172,7 +172,7 @@ const orientationHandler = (e) => {
 };
 
 const orientationListener = () => {
-  document.addEventListener("keydown", orientationHandler);
+  document.body.addEventListener("keydown", orientationHandler);
 };
 
 const shipPlaceHover = (ships) => {
