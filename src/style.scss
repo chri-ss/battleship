@@ -40,6 +40,23 @@ body {
     background-color: #afbcc0;
     font-size: 18px;
   }
+
+  .start-game:hover {
+    background-color: #324452;
+    color: #fff;
+    border: 2px solid #fff;
+  }
+
+  .start-game:active {
+    background-color: #749395;
+    color: #324452;
+  }
+
+  .start-game:disabled {
+    background-color: #afbcc0;
+    color: #6f808d;
+    border: none;
+  }
 }
 
 .ship-area {
@@ -121,10 +138,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #324452;
-  color: #fff;
+  background: #afbcc0;
+  color: #324452;
   padding: 3rem;
   grid-column: 1/3;
-  width: 50%;
+  width: 30%;
   height: 50%;
+  border: 2px solid #324452;
+  border-radius: 10px;
+  font-size: 32px;
 }
