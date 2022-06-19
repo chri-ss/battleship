@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import player from "./player";
 import {
   makeBoard,
@@ -16,6 +17,9 @@ import {
   makeAttackPrompt,
 } from "./DOM";
 import { ship } from "./ships";
+
+let p1;
+let p2;
 
 const placeShipListener = (ships, plyr, otherPlyr) => {
   shipPlaceHover(ships, orientation);
@@ -58,17 +62,6 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
   });
 };
 
-const resetGameListener = () => {
-  const resetButton = document.querySelector(".reset-button");
-  resetButton.addEventListener("click", () => {
-    clearBoard();
-    clearShipArea();
-    initializeGame();
-    clearModal();
-    removeAttackListener();
-  });
-};
-
 const testForWinner = (plyr, otherPlyr) => {
   if (plyr.brd.allShipsSunk()) {
     displayWinner(otherPlyr);
@@ -76,7 +69,7 @@ const testForWinner = (plyr, otherPlyr) => {
   }
 };
 
-function attackListener(e, p1, p2) {
+function attackListener(e) {
   const coordsToAttack = e.target.getAttribute("truedata-coords");
   if (
     p1.getTurn() &&
@@ -92,14 +85,25 @@ function attackListener(e, p1, p2) {
   }
 }
 
-const addAttackListener = (p1, p2) => {
+const addAttackListener = () => {
   const boardArea = document.querySelector(".board-area");
-  boardArea.addEventListener("click", (e) => attackListener(e, p1, p2));
+  boardArea.addEventListener("click", attackListener);
 };
 
 const removeAttackListener = () => {
   const boardArea = document.querySelector(".board-area");
   boardArea.removeEventListener("click", attackListener);
+};
+
+const resetGameListener = () => {
+  const resetButton = document.querySelector(".reset-button");
+  resetButton.addEventListener("click", () => {
+    clearBoard();
+    clearShipArea();
+    removeAttackListener();
+    initializeGame();
+    clearModal();
+  });
 };
 
 const populateBoard = (plyr, otherPlyr) => {
@@ -123,15 +127,15 @@ const populateBoard = (plyr, otherPlyr) => {
   }
 };
 
-const runGame = (p1, p2) => {
+const runGame = () => {
   populateBoard(p1, p2);
   populateBoard(p2, p1);
 };
 
 const initializeGame = () => {
   const newGameButton = document.querySelector(".start-game");
-  const p1 = player();
-  const p2 = player();
+  p1 = player();
+  p2 = player();
   p1.name = "p1";
   p2.name = "p2";
   p1.setTurn(true);
