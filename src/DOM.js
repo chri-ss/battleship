@@ -121,7 +121,7 @@ const makeResetButton = () => {
 const displayWinner = (otherPlyr) => {
   const shipArea = document.querySelector(".ship-area");
   modal.classList.add("modal");
-  if (otherPlyr) modal.textContent = `${otherPlyr.name} wins!`;
+  if (otherPlyr) modal.textContent = `${otherPlyr.name} win!`;
   clearShipArea();
   shipArea.appendChild(modal);
   makeResetButton();
@@ -172,7 +172,7 @@ const orientationHandler = (e) => {
 };
 
 const orientationListener = () => {
-  document.addEventListener("keydown", orientationHandler);
+  document.body.addEventListener("keydown", orientationHandler);
 };
 
 const shipPlaceHover = (ships) => {

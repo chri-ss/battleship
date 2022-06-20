@@ -62,6 +62,17 @@ const placeShipListener = (ships, plyr, otherPlyr) => {
   });
 };
 
+const resetGameListener = () => {
+  const resetButton = document.querySelector(".reset-button");
+  resetButton.addEventListener("click", () => {
+    clearBoard();
+    clearShipArea();
+    removeAttackListener();
+    initializeGame();
+    clearModal();
+  });
+};
+
 const testForWinner = (plyr, otherPlyr) => {
   if (plyr.brd.allShipsSunk()) {
     displayWinner(otherPlyr);
@@ -95,17 +106,6 @@ const removeAttackListener = () => {
   boardArea.removeEventListener("click", attackListener);
 };
 
-const resetGameListener = () => {
-  const resetButton = document.querySelector(".reset-button");
-  resetButton.addEventListener("click", () => {
-    clearBoard();
-    clearShipArea();
-    removeAttackListener();
-    initializeGame();
-    clearModal();
-  });
-};
-
 const populateBoard = (plyr, otherPlyr) => {
   const carrier = ship(5);
   carrier.name = "carrier";
@@ -118,7 +118,7 @@ const populateBoard = (plyr, otherPlyr) => {
   const destroyer = ship(2);
   destroyer.name = "destroyer";
   const ships = [carrier, battleship, cruiser, submarine, destroyer];
-  if (plyr.name === "p1") {
+  if (plyr.name === "you") {
     placeShipListener(ships, plyr, otherPlyr);
   } else {
     ships.forEach((shipp) => {
@@ -136,8 +136,8 @@ const initializeGame = () => {
   const newGameButton = document.querySelector(".start-game");
   p1 = player();
   p2 = player();
-  p1.name = "p1";
-  p2.name = "p2";
+  p1.name = "you";
+  p2.name = "computer";
   p1.setTurn(true);
   p2.setComp(true);
   makeBoard(p1);
