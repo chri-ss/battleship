@@ -6,7 +6,7 @@ A strategy guessing game made with JavaScript, HTML and SCSS.
 
 Place your 5 ships on your board and attack the computer player's board.  
 Eliminate all 5 of the computer's ships to win.  
-Press 't' to toggle between  
+Press 't' to toggle between horizontal and vertical ship placement.  
 blue - miss  
 red - hit  
 
