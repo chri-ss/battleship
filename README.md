@@ -2,6 +2,8 @@
 
 A strategy guessing game made with JavaScript, HTML and SCSS.
 
+Live preview: https://chri-ss.github.io/battleship/
+
 ## Gameplay ##  
 
 Place your 5 ships on your board and attack the computer player's board.  
